@@ -1,7 +1,8 @@
-import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
+import NextAuth, { CredentialsSignin, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import { PostLoginResponse } from "./lib/types/Login";
 import { signInSchema } from "./lib/zod";
 
 class UserNotFoundError extends CredentialsSignin {
@@ -23,10 +24,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     GitHub,
     Google,
     Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
       authorize: async (credentials) => {
         await new Promise((resolve) => setTimeout(resolve, 300)); // add a fake loading
 
@@ -36,12 +33,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new InvalidCredentialError();
         }
 
-        let user = {
-          email: parsedCredentials.data.email,
-        };
-        if (!user) {
+        const res = (await fetch(
+          `${process.env.BACKEND_API_URL}/api/auth/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(parsedCredentials.data),
+          },
+        ).then((res) => res.json())) as PostLoginResponse;
+
+        if (!res) {
           throw new UserNotFoundError("Custom Api Error");
         }
+
+        let user = {
+          accessToken: res.data.access_token,
+          id: res.data.user.id,
+          image: "",
+          name: res.data.user.name,
+          email: res.data.user.email,
+        } satisfies User;
         return user;
       },
     }),
@@ -51,14 +64,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/error",
   },
   callbacks: {
-    signIn: async ({ account, user, credentials, email, profile }) => {
+    signIn: async ({ account, user }) => {
       if (account?.provider === "google") {
-        await new Promise((resolve) => setTimeout(resolve, 5000)); // add a fake loading
+        const res = (await fetch(
+          `${process.env.BACKEND_API_URL}/api/auth/google-login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token: account.id_token,
+            }),
+          },
+        ).then((res) => res.json())) as PostLoginResponse;
 
-        console.log({ account, user, credentials, email, profile });
+        if (!res) return false;
+        const data = res.data;
+
+        user.email = data.user.email;
+        user.name = data.user.name;
+        user.accessToken = data.access_token;
+        user.id = data.user.id;
+
         return true;
       }
       return true;
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.id = user.id ?? token.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.accessToken = token.accessToken;
+      session.user.id = token.id;
+      return session;
     },
   },
 });
