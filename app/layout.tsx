@@ -1,8 +1,19 @@
+import NavBar from "@/components/navbar/NavBar";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-serif",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.variable}>{children}</body>
+      <body
+        className={clsx(
+          inter.variable,
+          poppins.variable,
+          "bg-slate-100 font-serif",
+        )}
+      >
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }
