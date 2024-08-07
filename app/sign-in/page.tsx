@@ -1,8 +1,9 @@
 import { signIn } from "@/auth";
 import { VStack } from "@/components/Stack";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import GoogleButton from "react-google-button";
 import SignInForm from "./SignInForm";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 export default async function Home() {
   return (
@@ -19,7 +20,9 @@ export default async function Home() {
             await signIn("google", { redirectTo: "/dashboard" });
           }}
         >
-          <Button className="w-full">Google Sign In</Button>
+          <VStack className="items-center">
+            <GoogleLoginButton />
+          </VStack>
         </form>
       </VStack>
     </main>

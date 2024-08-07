@@ -26,12 +26,7 @@ const VStack = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  return (
-    <div
-      {...props}
-      className={clsx("flex flex-col items-stretch", className)}
-    />
-  );
+  return <div {...props} className={clsx("flex flex-col", className)} />;
 };
 
 export { Center, HStack, VStack };

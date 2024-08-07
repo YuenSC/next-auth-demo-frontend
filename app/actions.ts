@@ -8,6 +8,7 @@ export const authenticate = async (
   formData: FormData,
 ) => {
   try {
+    formData.set("redirectTo", "/dashboard");
     await signIn("credentials", formData);
   } catch (error: any) {
     if (error instanceof AuthError) {
