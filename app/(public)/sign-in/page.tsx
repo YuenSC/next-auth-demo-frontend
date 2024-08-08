@@ -1,8 +1,8 @@
 import { signIn } from "@/auth";
 import { VStack } from "@/components/Stack";
 import { Separator } from "@/components/ui/separator";
-import GoogleLoginButton from "./GoogleLoginButton";
-import SignInForm from "./SignInForm";
+import GoogleLoginButton from "./components/GoogleLoginButton";
+import SignInForm from "./components/SignInForm";
 
 export default async function Home() {
   return (
