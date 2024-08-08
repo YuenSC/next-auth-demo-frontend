@@ -76,6 +76,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const decoded = jsonwebtoken.decode(accessToken) as {
         exp: number;
       } | null;
+
       const isAccessTokenExpired = !decoded || Date.now() >= decoded.exp * 1000;
       return !!auth?.user && !isAccessTokenExpired;
     },
