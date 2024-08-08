@@ -5,6 +5,7 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { PostLoginResponse } from "./lib/types/Login";
 import { signInSchema } from "./lib/zod";
+import { ApiErrorResponse } from "./lib/types/ApiResponse";
 
 class UserNotFoundError extends CredentialsSignin {
   constructor(message?: string) {
@@ -34,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new InvalidCredentialError();
         }
 
-        const res = (await fetch(
+        const res = await fetch(
           `${process.env.BACKEND_API_URL}/api/auth/login`,
           {
             method: "POST",
@@ -43,19 +44,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
             body: JSON.stringify(parsedCredentials.data),
           },
-        ).then((res) => res.json())) as PostLoginResponse;
+        );
 
-        if (!res) {
-          throw new UserNotFoundError("Custom Api Error");
+        const jsonResponse = await res.json();
+
+        if (!res.ok) {
+          const { message } = jsonResponse as ApiErrorResponse;
+          throw new InvalidCredentialError(message);
         }
 
+        const { data } = jsonResponse as PostLoginResponse;
         let user = {
-          accessToken: res.data.access_token,
-          id: res.data.user.id,
+          accessToken: data.access_token,
+          id: data.user.id,
           image: "",
-          name: res.data.user.name,
-          email: res.data.user.email,
+          name: data.user.name,
+          email: data.user.email,
         } satisfies User;
+
         return user;
       },
     }),
@@ -75,7 +81,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     signIn: async ({ account, user }) => {
       if (account?.provider === "google") {
-        const res = (await fetch(
+        const res = await fetch(
           `${process.env.BACKEND_API_URL}/api/auth/google-login`,
           {
             method: "POST",
@@ -86,10 +92,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               token: account.id_token,
             }),
           },
-        ).then((res) => res.json())) as PostLoginResponse;
+        );
 
-        if (!res) return false;
-        const data = res.data;
+        if (!res.ok) return false;
+        const { data } = (await res.json()) as PostLoginResponse;
 
         user.email = data.user.email;
         user.name = data.user.name;

@@ -1,16 +1,10 @@
-import { auth, signIn, signOut } from "@/auth";
-import { FaClock } from "react-icons/fa";
-import { HStack } from "../Stack";
-import { Button } from "../ui/button";
+import { auth } from "@/auth";
+import { HStack } from "@/components/Stack";
 import Link from "next/link";
+import { FaClock } from "react-icons/fa";
 import SignInButton from "./SignInButton";
 
-const handleSignOut = async () => {
-  "use server";
-  await signOut({ redirectTo: "/" });
-};
-
-const NavBar = async () => {
+const PublicNavBar = async () => {
   const session = await auth();
 
   return (
@@ -24,14 +18,9 @@ const NavBar = async () => {
 
       <HStack className="gap-4">
         <SignInButton isLogin={!!session} />
-        {session && (
-          <form action={handleSignOut}>
-            <Button>Sign Out</Button>
-          </form>
-        )}
       </HStack>
     </HStack>
   );
 };
 
-export default NavBar;
+export default PublicNavBar;

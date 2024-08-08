@@ -1,4 +1,4 @@
-import NavBar from "@/components/navbar/NavBar";
+import ProtectedSideBar from "./components/ProtectedSideBar";
 
 export default function ProtectedLayout({
   children,
@@ -6,9 +6,9 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <NavBar />
-      {children}
-    </>
+    <div className="flex">
+      <ProtectedSideBar />
+      <div className="flex-1">{children}</div>
+    </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
 
 const SignInButton = ({ isLogin }: { isLogin: boolean }) => {
   const pathname = usePathname();
