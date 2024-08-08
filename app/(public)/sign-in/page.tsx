@@ -16,7 +16,7 @@ export default async function Home() {
         <form
           action={async () => {
             "use server";
-            await signIn("google", { redirectTo: "/dashboard" });
+            await signIn("google", { redirectTo: "/console" });
           }}
         >
           <VStack className="items-center">

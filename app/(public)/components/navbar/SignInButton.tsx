@@ -4,12 +4,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SignInButton = ({ isLogin }: { isLogin: boolean }) => {
+const SignInButton = () => {
   const pathname = usePathname();
-
-  if (isLogin) {
-    return null;
-  }
 
   if (pathname.includes("/sign-in")) {
     return null;

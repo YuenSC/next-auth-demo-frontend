@@ -9,7 +9,7 @@ export default function NotFound() {
     <Center className="h-full w-full gap-4">
       <h2 className="text-2xl">Not Found</h2>
       <p>Could not find requested resource</p>
-      <Link href="/dashboard">
+      <Link href="/console">
         <Button>Return Dashboard</Button>
       </Link>
     </Center>

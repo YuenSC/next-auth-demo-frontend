@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { CiCalendar, CiTimer } from "react-icons/ci";
+import { FiUser } from "react-icons/fi";
 import { GoProject } from "react-icons/go";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
@@ -26,32 +27,32 @@ interface SideBarSection {
 
 const sidebarMenuSections = [
   {
-    title: "",
-    items: [
-      {
-        name: "Time Tracker",
-        href: "/dashboard/time-tracker",
-        icon: CiTimer,
-      },
-      {
-        name: "Calendar",
-        href: "/dashboard/calendar",
-        icon: CiCalendar,
-      },
-    ],
-  },
-  {
-    title: "Analyze",
+    title: "Main",
     items: [
       {
         name: "Dashboard",
-        href: "/dashboard",
+        href: "/console",
         icon: RxDashboard,
       },
       {
         name: "Report",
-        href: "/dashboard/report",
+        href: "/console/report",
         icon: IoDocumentTextOutline,
+      },
+    ],
+  },
+  {
+    title: "Record",
+    items: [
+      {
+        name: "Time Tracker",
+        href: "/console/time-tracker",
+        icon: CiTimer,
+      },
+      {
+        name: "Calendar",
+        href: "/console/calendar",
+        icon: CiCalendar,
       },
     ],
   },
@@ -60,8 +61,13 @@ const sidebarMenuSections = [
     items: [
       {
         name: "Project",
-        href: "/dashboard/project",
+        href: "/console/project",
         icon: GoProject,
+      },
+      {
+        name: "User",
+        href: "/console/users",
+        icon: FiUser,
       },
     ],
   },
@@ -70,13 +76,13 @@ const sidebarMenuSections = [
 const ProtectedSideBar = () => {
   return (
     <div className="flex min-h-screen min-w-[200px] flex-col border-r bg-white">
-      <div className="mt-4 p-2">
+      <div className="ml-2 mt-4 p-2">
         <AppLogoLink size="lg" />
       </div>
       <nav className="flex-1">
         {sidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
-            <h3 className="ml-2 mt-4">{title}</h3>
+            <h3 className="mb-2 ml-2 mt-4">{title}</h3>
             {items.map(({ name, href, icon: Icon }) => (
               <Link key={name} href={href} passHref className="group relative">
                 {/* Overlay */}
