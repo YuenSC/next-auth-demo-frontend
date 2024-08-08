@@ -1,3 +1,4 @@
+import jsonwebtoken from "jsonwebtoken";
 import NextAuth, { CredentialsSignin, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
@@ -64,6 +65,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/error",
   },
   callbacks: {
+    async authorized({ request, auth }) {
+      const accessToken = auth?.user?.accessToken ?? "";
+      const decoded = jsonwebtoken.decode(accessToken) as {
+        exp: number;
+      } | null;
+      const isAccessTokenExpired = !decoded || Date.now() >= decoded.exp * 1000;
+      return !!auth?.user && !isAccessTokenExpired;
+    },
     signIn: async ({ account, user }) => {
       if (account?.provider === "google") {
         const res = (await fetch(

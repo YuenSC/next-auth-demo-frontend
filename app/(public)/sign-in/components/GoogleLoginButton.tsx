@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 
+// Ref: https://developers.google.com/identity/branding-guidelines
 const GoogleLoginButton = () => {
   return (
     <button className={styles["gsi-material-button"]}>
