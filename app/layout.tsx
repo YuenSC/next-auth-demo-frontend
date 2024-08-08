@@ -31,7 +31,7 @@ export default function RootLayout({
         className={clsx(
           inter.variable,
           poppins.variable,
-          "bg-slate-100 font-serif",
+          "flex min-h-screen flex-col bg-slate-100 font-serif",
         )}
       >
         <NavBar />

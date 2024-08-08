@@ -14,7 +14,7 @@ const NavBar = async () => {
   const session = await auth();
 
   return (
-    <HStack className="container min-h-[80px] items-center justify-between gap-4 py-4">
+    <HStack className="container min-h-[80px] items-center justify-between gap-4 px-4 py-4 md:px-8">
       <Link href="/">
         <HStack className="gap-2">
           <FaClock className="text-primary" />
