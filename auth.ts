@@ -70,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/sign-in",
     error: "/error",
   },
+  // Callbacks Docs: https://authjs.dev/reference/nextjs#callbacks
   callbacks: {
     async authorized({ request, auth }) {
       const accessToken = auth?.user?.accessToken ?? "";
@@ -107,6 +108,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
+    // Ref: Extending the session https://authjs.dev/guides/extending-the-session
     jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken;

@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState, useFormStatus } from "react-dom";
+import { FaSpinner } from "react-icons/fa";
 import { authenticate } from "../../../actions";
-import { FaSpinner, FaTruckLoading } from "react-icons/fa";
 
-const SignInForm = () => {
+const SignInForm = ({ redirectTo }: { redirectTo: string }) => {
   const [errorMessage, formAction] = useFormState(authenticate, "");
 
   return (
@@ -38,6 +38,8 @@ const SignInForm = () => {
             aria-required="true"
           />
         </div>
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+
         {errorMessage && (
           <>
             <p className="text-sm text-red-500">{errorMessage}</p>
