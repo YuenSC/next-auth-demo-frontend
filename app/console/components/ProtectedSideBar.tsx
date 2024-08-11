@@ -27,7 +27,7 @@ interface SideBarSection {
 
 const sidebarMenuSections = [
   {
-    title: "Main",
+    title: "",
     items: [
       {
         name: "Dashboard",
@@ -75,21 +75,18 @@ const sidebarMenuSections = [
 
 const ProtectedSideBar = () => {
   return (
-    <div className="flex min-h-screen min-w-[200px] flex-col border-r bg-white">
-      <div className="ml-2 mt-4 p-2">
-        <AppLogoLink size="lg" />
-      </div>
-      <nav className="flex-1">
+    <div className="flex min-w-[200px] flex-col border-r bg-white">
+      <nav className="min-h-0 flex-1 overflow-auto">
         {sidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
-            <h3 className="mb-2 ml-2 mt-4">{title}</h3>
+            {title && <h3 className="mb-2 ml-4 mt-4">{title}</h3>}
             {items.map(({ name, href, icon: Icon }) => (
               <Link key={name} href={href} passHref className="group relative">
                 {/* Overlay */}
                 <SideBarLinkOverlay href={href} />
 
                 {/* Link */}
-                <HStack className="relative gap-2 p-4 py-3">
+                <HStack className="relative gap-5 px-6 py-3">
                   <Icon size={24} />
                   <span>{name}</span>
                 </HStack>
@@ -99,7 +96,7 @@ const ProtectedSideBar = () => {
         ))}
       </nav>
       <form action={handleSignOut}>
-        <Button className="mb-16 w-full" variant="link">
+        <Button className="my-4 w-full" variant="link">
           Sign Out
         </Button>
       </form>

@@ -8,7 +8,6 @@ export const authenticate = async (
   formData: FormData,
 ) => {
   try {
-    formData.set("redirectTo", "/console");
     await signIn("credentials", formData);
   } catch (error: any) {
     if (error instanceof AuthError) {
