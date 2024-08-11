@@ -1,12 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { useRef } from "react";
-import {
-  Provider,
-  TypedUseSelectorHook,
-  useDispatch,
-  useSelector,
-} from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import globalReducer from "./state";
 
 import {
@@ -14,13 +7,11 @@ import {
   PAUSE,
   PERSIST,
   persistReducer,
-  persistStore,
   PURGE,
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import persistStorage from "redux-persist/lib/storage";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -38,7 +29,9 @@ const createNoopStorage = () => {
 };
 
 const storage =
-  typeof window === "undefined" ? createNoopStorage() : persistStorage;
+  typeof window === "undefined"
+    ? createNoopStorage()
+    : createWebStorage("local");
 
 const rootReducer = combineReducers({
   global: globalReducer,
