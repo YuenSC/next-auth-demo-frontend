@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,7 +34,7 @@ export default function RootLayout({
           "flex min-h-screen flex-col bg-slate-100 font-serif",
         )}
       >
-        {children}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );

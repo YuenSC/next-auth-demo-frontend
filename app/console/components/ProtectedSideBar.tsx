@@ -1,20 +1,14 @@
 import { signOut } from "@/auth";
-import AppLogoLink from "@/components/AppLogoLink";
-import { HStack } from "@/components/Stack";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IconType } from "react-icons";
-import { CiCalendar, CiTimer } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { GoProject } from "react-icons/go";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoIosTimer } from "react-icons/io";
+import { IoCalendarClearOutline, IoDocumentTextOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import SideBarLinkOverlay from "./SideBarLinkOverlay";
-
-const handleSignOut = async () => {
-  "use server";
-  await signOut({ redirectTo: "/" });
-};
+import SideBarListItem from "./SideBarListItem";
+import SideBarMenuTitle from "./SideBarMenuTitle";
 
 interface SideBarSection {
   title?: string;
@@ -47,12 +41,12 @@ const sidebarMenuSections = [
       {
         name: "Time Tracker",
         href: "/console/time-tracker",
-        icon: CiTimer,
+        icon: IoIosTimer,
       },
       {
         name: "Calendar",
         href: "/console/calendar",
-        icon: CiCalendar,
+        icon: IoCalendarClearOutline,
       },
     ],
   },
@@ -75,31 +69,25 @@ const sidebarMenuSections = [
 
 const ProtectedSideBar = () => {
   return (
-    <div className="flex min-w-[200px] flex-col border-r bg-white">
+    <div className="flex max-w-[200px] flex-col border-r bg-white">
       <nav className="min-h-0 flex-1 overflow-auto">
         {sidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
-            {title && <h3 className="mb-2 ml-4 mt-4">{title}</h3>}
+            {title && <SideBarMenuTitle title={title} />}
             {items.map(({ name, href, icon: Icon }) => (
               <Link key={name} href={href} passHref className="group relative">
-                {/* Overlay */}
                 <SideBarLinkOverlay href={href} />
-
-                {/* Link */}
-                <HStack className="relative gap-5 px-6 py-3">
-                  <Icon size={24} />
-                  <span>{name}</span>
-                </HStack>
+                <SideBarListItem name={name} icon={<Icon size={24} />} />
               </Link>
             ))}
           </div>
         ))}
       </nav>
-      <form action={handleSignOut}>
+      {/* <form action={handleSignOut}>
         <Button className="my-4 w-full" variant="link">
-          Sign Out
+          <IoIosLogOut size={24} />
         </Button>
-      </form>
+      </form> */}
     </div>
   );
 };

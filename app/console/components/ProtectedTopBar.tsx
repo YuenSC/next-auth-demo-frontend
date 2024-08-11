@@ -1,18 +1,31 @@
+import { signOut } from "@/auth";
 import AppLogoLink from "@/components/AppLogoLink";
 import { HStack } from "@/components/Stack";
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { IoMdMenu } from "react-icons/io";
+import { IoIosLogOut } from "react-icons/io";
+import SideBarToggle from "./SideBarToggle";
+
+const handleSignOut = async () => {
+  "use server";
+  await signOut({ redirectTo: "/" });
+};
 
 const ProtectedTopBar = () => {
   return (
-    <HStack className="border-b bg-white pl-4">
-      <Button variant="outline" size="icon">
-        <IoMdMenu size={24} />
-      </Button>
-      <div className="p-4">
-        <AppLogoLink size="lg" />
-      </div>
+    <HStack className="justify-between border-b bg-white pl-4">
+      <HStack>
+        <SideBarToggle />
+        <div className="p-4">
+          <AppLogoLink size="lg" />
+        </div>
+      </HStack>
+
+      <form action={handleSignOut}>
+        <Button className="px-2 md:mr-8 md:px-4" variant="outline">
+          <IoIosLogOut size={24} className="mr-1" />
+          <p className="hidden md:block">Sign Out</p>
+        </Button>
+      </form>
     </HStack>
   );
 };

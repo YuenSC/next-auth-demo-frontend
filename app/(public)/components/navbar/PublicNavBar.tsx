@@ -8,11 +8,9 @@ import SignInButton from "./SignInButton";
 const PublicNavBar = async () => {
   const session = await auth();
 
-  console.log("session", session);
-
   return (
     <HStack className="container min-h-[80px] items-center justify-between gap-4 px-4 py-4 md:px-8">
-      <AppLogoLink />
+      <AppLogoLink size="lg" />
 
       <HStack className="gap-4">
         {session ? (

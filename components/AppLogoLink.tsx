@@ -10,12 +10,12 @@ const AppLogoLink = ({ size = "md" }: { size?: "md" | "lg" }) => {
       <HStack className="gap-2">
         <FaClock
           className={clsx("text-primary", {
-            "text-2xl": size === "lg",
+            "md:text-2xl": size === "lg",
           })}
         />
         <p
           className={clsx("font-bold", {
-            "text-2xl": size === "lg",
+            "md:text-2xl": size === "lg",
           })}
         >
           Clockify

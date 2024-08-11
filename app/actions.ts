@@ -11,7 +11,6 @@ export const authenticate = async (
     await signIn("credentials", formData);
   } catch (error: any) {
     if (error instanceof AuthError) {
-      console.log({ ...error });
       return error.message;
     }
     throw error;
