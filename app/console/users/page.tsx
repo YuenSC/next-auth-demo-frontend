@@ -1,6 +1,10 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "./DataTable";
+import { DataTable } from "@/components/DataTable";
+import ConsolePageLayout from "@/components/ConsolePageLayout";
+import { NextPage } from "next";
+import PageProps from "@/lib/types/PageProps";
+import SearchFilterBar from "@/components/SearchFilterBar";
 
 type Payment = {
   id: string;
@@ -22,7 +26,6 @@ export const payments: Payment[] = [
     status: "processing",
     email: "example@gmail.com",
   },
-  // ...
 ];
 
 export const columns: ColumnDef<Payment>[] = [
@@ -40,13 +43,15 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-const Page = () => {
+const Page = ({ params, searchParams }: PageProps) => {
   return (
-    <div className="h-full w-full p-4">
+    <ConsolePageLayout title="Users">
+      <SearchFilterBar searchTextPlaceholder="Search by name or email" />
+
       <div className="bg-white">
         <DataTable columns={columns} data={payments} />
       </div>
-    </div>
+    </ConsolePageLayout>
   );
 };
 
