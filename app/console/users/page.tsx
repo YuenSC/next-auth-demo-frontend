@@ -4,7 +4,7 @@ import { DataTable } from "@/components/DataTable";
 import ConsolePageLayout from "@/components/ConsolePageLayout";
 import { NextPage } from "next";
 import PageProps from "@/lib/types/PageProps";
-import SearchFilterBar from "@/components/SearchFilterBar";
+import SearchFilterBar from "@/components/searchbar/SearchFilterBar";
 
 type Payment = {
   id: string;

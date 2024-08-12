@@ -1,13 +1,15 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
-import { HStack } from "./Stack";
-import { Input } from "./ui/input";
 import { IoMdSearch } from "react-icons/io";
+import { useDebouncedCallback } from "use-debounce";
+import { HStack } from "../Stack";
+import { Input } from "../ui/input";
+import SearchDropDown from "./SearchDropdown";
 
 enum QueryName {
   searchText = "searchText",
+  status = "status",
 }
 
 const SearchFilterBar = ({
@@ -30,9 +32,20 @@ const SearchFilterBar = ({
   }, 300);
 
   return (
-    <HStack>
+    <HStack className="gap-4">
+      <SearchDropDown
+        handleSearch={handleSearch}
+        queryKey="status"
+        defaultValue={searchParams.get(QueryName.status)?.toString()}
+        items={[
+          { label: "Show All", key: "all" },
+          { label: "Show Active", key: "active" },
+          { label: "Show Inactive", key: "inactive" },
+        ]}
+      />
+
       <Input
-        className="max-w-lg"
+        className="md:max-w-lg"
         placeholder={searchTextPlaceholder}
         onChange={(e) => handleSearch(QueryName.searchText, e.target.value)}
         defaultValue={searchParams.get(QueryName.searchText)?.toString()}
