@@ -1,58 +1,61 @@
-import React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/DataTable";
 import ConsolePageLayout from "@/components/ConsolePageLayout";
-import { NextPage } from "next";
-import PageProps from "@/lib/types/PageProps";
+import { DataTable } from "@/components/DataTable";
 import SearchFilterBar from "@/components/searchbar/SearchFilterBar";
+import { fetchUsers } from "@/lib/data";
+import PageProps from "@/lib/types/PageProps";
+import { BackendUser } from "@/lib/types/User";
+import { ColumnDef } from "@tanstack/react-table";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import { Suspense } from "react";
+import ErrorComponent from "./ErrorComponent";
 
-type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
-export const payments: Payment[] = [
+export const userColumns: ColumnDef<BackendUser>[] = [
   {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
+    accessorKey: "id",
+    header: "ID",
   },
   {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
-  },
-];
-
-export const columns: ColumnDef<Payment>[] = [
-  {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "name",
+    header: "Name",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "role",
+    header: "Role",
+  },
+  {
+    accessorKey: "provider",
+    header: "Provider",
   },
 ];
 
-const Page = ({ params, searchParams }: PageProps) => {
+const Page = async ({ params, searchParams }: PageProps) => {
   return (
     <ConsolePageLayout title="Users">
       <SearchFilterBar searchTextPlaceholder="Search by name or email" />
 
       <div className="bg-white">
-        <DataTable columns={columns} data={payments} />
+        <ErrorBoundary errorComponent={ErrorComponent}>
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserDataTable searchParams={searchParams} />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </ConsolePageLayout>
   );
 };
 
 export default Page;
+
+const UserDataTable = async ({
+  searchParams,
+}: {
+  searchParams: PageProps["searchParams"];
+}) => {
+  const { data: users } = await fetchUsers(searchParams);
+
+  return <DataTable columns={userColumns} data={users} />;
+};

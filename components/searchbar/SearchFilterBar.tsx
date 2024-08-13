@@ -12,6 +12,12 @@ enum QueryName {
   status = "status",
 }
 
+enum FilterActiveStatus {
+  all = "all",
+  active = "active",
+  inactive = "inactive",
+}
+
 const SearchFilterBar = ({
   searchTextPlaceholder,
 }: {
@@ -32,15 +38,18 @@ const SearchFilterBar = ({
   }, 300);
 
   return (
-    <HStack className="gap-4">
+    <HStack className="flex-wrap gap-4">
       <SearchDropDown
         handleSearch={handleSearch}
         queryKey="status"
-        defaultValue={searchParams.get(QueryName.status)?.toString()}
+        defaultValue={
+          searchParams.get(QueryName.status)?.toString() ||
+          FilterActiveStatus.all
+        }
         items={[
-          { label: "Show All", key: "all" },
-          { label: "Show Active", key: "active" },
-          { label: "Show Inactive", key: "inactive" },
+          { label: "Show All", key: FilterActiveStatus.all },
+          { label: "Show Active", key: FilterActiveStatus.active },
+          { label: "Show Inactive", key: FilterActiveStatus.inactive },
         ]}
       />
 
