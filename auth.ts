@@ -60,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           image: "",
           name: data.user.name,
           email: data.user.email,
+          role: data.user.role,
         } satisfies User;
 
         return user;
@@ -103,6 +104,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         user.name = data.user.name;
         user.accessToken = data.access_token;
         user.id = data.user.id;
+        user.role = data.user.role;
 
         return true;
       }
@@ -113,12 +115,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.accessToken = user.accessToken;
         token.id = user.id ?? token.id;
+        token.role = user.role;
       }
       return token;
     },
     session({ session, token }) {
       session.user.accessToken = token.accessToken;
       session.user.id = token.id;
+      session.user.role = token.role;
       return session;
     },
   },
