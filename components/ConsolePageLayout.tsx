@@ -5,7 +5,7 @@ const ConsolePageLayout = ({
   children,
   rightComponent,
   title,
-}: PropsWithChildren<{ title: string; rightComponent: ReactNode }>) => {
+}: PropsWithChildren<{ title: string; rightComponent?: ReactNode }>) => {
   return (
     <VStack className="h-full w-full gap-6 px-8 py-12">
       <HStack className="justify-between">

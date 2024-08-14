@@ -32,7 +32,9 @@ const UserDataTable = async ({
 }: {
   searchParams: PageProps["searchParams"];
 }) => {
-  const { data: projects } = await fetchProjects(searchParams);
+  const {
+    data: { items: projects },
+  } = await fetchProjects(searchParams);
 
   return <DataTable columns={ProjectColumns} data={projects} />;
 };

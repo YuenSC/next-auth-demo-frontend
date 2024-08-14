@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,8 @@ export default function RootLayout({
           "flex min-h-screen flex-col bg-slate-200 font-serif",
         )}
       >
+        <NextTopLoader color="#4799eb" />
+
         <StoreProvider>
           {children}
           <Toaster />

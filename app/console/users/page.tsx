@@ -31,7 +31,9 @@ const UserDataTable = async ({
 }: {
   searchParams: PageProps["searchParams"];
 }) => {
-  const { data: users } = await fetchUsers(searchParams);
+  const {
+    data: { items },
+  } = await fetchUsers(searchParams);
 
-  return <DataTable columns={UserColumns} data={users} />;
+  return <DataTable columns={UserColumns} data={items} />;
 };
