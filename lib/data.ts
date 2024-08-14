@@ -3,6 +3,7 @@ import { ApiErrorResponse, ApiResponse } from "./types/ApiResponse";
 import PageProps from "./types/PageProps";
 import { BackendUser } from "./types/User";
 import { convertSearchParamsToString } from "./utils";
+import { Project } from "./types/Project";
 
 export const fetchWithToken = async (path: string, init?: RequestInit) => {
   const session = await auth();
@@ -13,6 +14,7 @@ export const fetchWithToken = async (path: string, init?: RequestInit) => {
   const res = await fetch(`${process.env.BACKEND_API_URL}${path}`, {
     ...init,
     headers: {
+      "Content-Type": "application/json",
       ...init?.headers,
       Authorization: `Bearer ${session.user.accessToken}`,
     },
@@ -29,4 +31,12 @@ export const fetchUsers = async (searchParams: PageProps["searchParams"]) => {
   return (await fetchWithToken(
     `/api/users?${convertSearchParamsToString(searchParams)}`,
   )) as ApiResponse<BackendUser[]>;
+};
+
+export const fetchProjects = async (
+  searchParams: PageProps["searchParams"],
+) => {
+  return (await fetchWithToken(
+    `/api/projects?${convertSearchParamsToString(searchParams)}`,
+  )) as ApiResponse<Project[]>;
 };

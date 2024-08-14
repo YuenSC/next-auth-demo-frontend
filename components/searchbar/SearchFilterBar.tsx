@@ -6,6 +6,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { HStack } from "../Stack";
 import { Input } from "../ui/input";
 import SearchDropDown from "./SearchDropdown";
+import { Button } from "../ui/button";
 
 enum QueryName {
   searchText = "searchText",
@@ -54,7 +55,7 @@ const SearchFilterBar = ({
       />
 
       <Input
-        className="md:max-w-lg"
+        className="flex-grow-1 flex-basis-100 flex-shrink-0 md:max-w-lg"
         placeholder={searchTextPlaceholder}
         onChange={(e) => handleSearch(QueryName.searchText, e.target.value)}
         defaultValue={searchParams.get(QueryName.searchText)?.toString()}

@@ -1,11 +1,10 @@
 "use client";
 
-import { HStack, VStack } from "@/components/Stack";
-import { Button } from "@/components/ui/button";
+import { VStack } from "@/components/Stack";
+import SubmitButton from "@/components/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFormState, useFormStatus } from "react-dom";
-import { FaSpinner } from "react-icons/fa";
+import { useFormState } from "react-dom";
 import { authenticate } from "../../../actions";
 
 const SignInForm = ({ redirectTo }: { redirectTo: string }) => {
@@ -45,22 +44,9 @@ const SignInForm = ({ redirectTo }: { redirectTo: string }) => {
             <p className="text-sm text-red-500">{errorMessage}</p>
           </>
         )}
-        <ButtonWithLoading />
+        <SubmitButton title="Sign In" />
       </VStack>
     </form>
-  );
-};
-
-const ButtonWithLoading = () => {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button>
-      <HStack className="gap-2">
-        Sign In
-        {pending && <FaSpinner className="animate-spin" />}
-      </HStack>
-    </Button>
   );
 };
 

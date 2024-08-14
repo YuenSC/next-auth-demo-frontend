@@ -5,7 +5,7 @@ import { HStack } from "../Stack";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  iconLeft: React.ReactNode;
+  iconLeft?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
