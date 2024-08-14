@@ -1,5 +1,5 @@
 import ConsolePageLayout from "@/components/ConsolePageLayout";
-import { DataTable } from "@/components/DataTable";
+import { DataTable } from "@/components/data-table/DataTable";
 import SearchFilterBar from "@/components/searchbar/SearchFilterBar";
 import { UserColumns } from "@/lib/constants/table/UserColumns";
 import { fetchUsers } from "@/lib/data";
@@ -15,7 +15,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
       <div className="bg-white">
         <ErrorBoundary errorComponent={ErrorComponent}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={<DataTable columns={UserColumns} data={[]} isLoading />}
+          >
             <UserDataTable searchParams={searchParams} />
           </Suspense>
         </ErrorBoundary>
@@ -32,8 +34,8 @@ const UserDataTable = async ({
   searchParams: PageProps["searchParams"];
 }) => {
   const {
-    data: { items },
+    data: { items, meta },
   } = await fetchUsers(searchParams);
 
-  return <DataTable columns={UserColumns} data={items} />;
+  return <DataTable columns={UserColumns} data={items} paginationMeta={meta} />;
 };

@@ -1,5 +1,5 @@
 import ConsolePageLayout from "@/components/ConsolePageLayout";
-import { DataTable } from "@/components/DataTable";
+import { DataTable } from "@/components/data-table/DataTable";
 import SearchFilterBar from "@/components/searchbar/SearchFilterBar";
 import { ProjectColumns } from "@/lib/constants/table/ProjectColumns";
 import { fetchProjects } from "@/lib/data";
@@ -16,7 +16,11 @@ const Page = async ({ searchParams }: PageProps) => {
 
       <div className="w-full bg-white">
         <ErrorBoundary errorComponent={ErrorComponent}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <DataTable columns={ProjectColumns} data={[]} isLoading />
+            }
+          >
             <UserDataTable searchParams={searchParams} />
           </Suspense>
         </ErrorBoundary>
@@ -33,8 +37,10 @@ const UserDataTable = async ({
   searchParams: PageProps["searchParams"];
 }) => {
   const {
-    data: { items: projects },
+    data: { items: projects, meta },
   } = await fetchProjects(searchParams);
 
-  return <DataTable columns={ProjectColumns} data={projects} />;
+  return (
+    <DataTable columns={ProjectColumns} data={projects} paginationMeta={meta} />
+  );
 };
