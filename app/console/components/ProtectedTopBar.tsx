@@ -21,7 +21,7 @@ const ProtectedTopBar = () => {
       </HStack>
 
       <form action={handleSignOut}>
-        <Button className="mr-4 px-2 md:mr-4 md:px-4" variant="outline">
+        <Button className="mr-4 px-2 md:mr-8 md:px-4" variant="outline">
           <IoIosLogOut size={24} className="mr-1" />
           <p className="hidden md:block">Sign Out</p>
         </Button>

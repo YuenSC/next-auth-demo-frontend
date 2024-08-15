@@ -1,12 +1,12 @@
 import ConsolePageLayout from "@/components/ConsolePageLayout";
 import { DataTable } from "@/components/data-table/DataTable";
 import SearchFilterBar from "@/components/searchbar/SearchFilterBar";
-import { UserColumns } from "@/lib/constants/table/UserColumns";
 import { fetchUsers } from "@/lib/data";
 import PageProps from "@/lib/types/PageProps";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { Suspense } from "react";
 import ErrorComponent from "./ErrorComponent";
+import { UserColumns } from "./UserColumns";
 
 const Page = async ({ params, searchParams }: PageProps) => {
   return (

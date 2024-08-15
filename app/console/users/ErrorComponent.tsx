@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/data-table/DataTable";
-import { UserColumns } from "@/lib/constants/table/UserColumns";
+import { UserColumns } from "./UserColumns";
 
 const ErrorComponent = ({ error }: { error: Error }) => {
   return (

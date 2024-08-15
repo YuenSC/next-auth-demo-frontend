@@ -33,3 +33,22 @@ export const postProjectCreate = async (formData: FormData) => {
     };
   }
 };
+
+export const postProjectUpdate = async (formData: FormData) => {
+  try {
+    const id = formData.get("id");
+    if (!id) {
+      throw new Error("Project ID is required to update a project.");
+    }
+    await fetchWithToken(`/api/projects/${id}`, {
+      body: JSON.stringify(Object.fromEntries(formData)),
+      method: "PATCH",
+    });
+
+    revalidatePath("/console/projects");
+  } catch (error) {
+    return {
+      error: (error as Error).message,
+    };
+  }
+};

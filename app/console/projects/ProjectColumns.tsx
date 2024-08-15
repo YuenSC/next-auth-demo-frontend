@@ -1,7 +1,8 @@
 "use client";
 
+import { Project } from "@/lib/types/Project";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { Project } from "../../types/Project";
+import ProjectActions from "./ProjectActions";
 
 const columnHelper = createColumnHelper<Project>();
 
@@ -26,4 +27,8 @@ export const ProjectColumns: ColumnDef<Project, any>[] = [
     accessorKey: "owner.name",
     header: "Owner",
   },
+  columnHelper.display({
+    id: "actions",
+    cell: (props) => <ProjectActions project={props.row.original} />,
+  }),
 ];
