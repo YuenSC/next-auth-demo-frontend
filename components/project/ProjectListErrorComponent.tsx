@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/data-table/DataTable";
 import { ProjectColumns } from "./ProjectColumns";
 
-const ErrorComponent = ({ error }: { error: Error }) => {
+const ProjectListErrorComponent = ({ error }: { error: Error }) => {
   return (
     <DataTable
       columns={ProjectColumns}
@@ -13,4 +13,4 @@ const ErrorComponent = ({ error }: { error: Error }) => {
   );
 };
 
-export default ErrorComponent;
+export default ProjectListErrorComponent;

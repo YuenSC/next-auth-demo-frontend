@@ -7,6 +7,11 @@ import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+export interface DialogRef {
+  open: () => void;
+  close: () => void;
+}
+
 const Dialog = DialogPrimitive.Root;
 
 const DialogTrigger = DialogPrimitive.Trigger;

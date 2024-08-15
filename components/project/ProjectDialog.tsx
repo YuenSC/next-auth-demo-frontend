@@ -24,11 +24,6 @@ import React, {
 } from "react";
 import { useFormState } from "react-dom";
 
-export interface ProjectDialogRef {
-  open: () => void;
-  close: () => void;
-}
-
 const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -52,7 +47,7 @@ const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
       });
       setOpen(false);
     },
-    [],
+    [isEdit, toast],
   );
   const [errorMessage, formAction] = useFormState(clientAction, "");
 
@@ -123,5 +118,7 @@ const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
     </Dialog>
   );
 });
+
+ProjectDialog.displayName = "ProjectDialog";
 
 export default ProjectDialog;

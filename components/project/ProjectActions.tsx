@@ -10,11 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Project } from "@/lib/types/Project";
-import ProjectDialog, { ProjectDialogRef } from "./ProjectDialog";
 import { useRef } from "react";
+import ProjectDialog from "./ProjectDialog";
+import ProjectDeleteAlertDialog from "./ProjectDeleteAlertDialog";
+import { DialogRef } from "../ui/dialog";
 
 const ProjectActions = ({ project }: { project: Project }) => {
-  const editDialogRef = useRef<ProjectDialogRef>(null);
+  const editDialogRef = useRef<DialogRef>(null);
+  const deleteDialogRef = useRef<DialogRef>(null);
 
   return (
     <>
@@ -30,13 +33,16 @@ const ProjectActions = ({ project }: { project: Project }) => {
           <DropdownMenuItem onClick={() => editDialogRef.current?.open()}>
             Edit Project
           </DropdownMenuItem>
-          <DropdownMenuItem>Disable Project</DropdownMenuItem>
-          <DropdownMenuItem className="text-red-500">
+          <DropdownMenuItem
+            errorStyle
+            onClick={() => deleteDialogRef.current?.open()}
+          >
             Delete Project
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <ProjectDialog project={project} ref={editDialogRef} />
+      <ProjectDeleteAlertDialog project={project} ref={deleteDialogRef} />
     </>
   );
 };

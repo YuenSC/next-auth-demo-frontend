@@ -52,3 +52,17 @@ export const postProjectUpdate = async (formData: FormData) => {
     };
   }
 };
+
+export const deleteProject = async (id: string) => {
+  try {
+    await fetchWithToken(`/api/projects/${id}`, {
+      method: "DELETE",
+    });
+
+    revalidatePath("/console/projects");
+  } catch (error) {
+    return {
+      error: (error as Error).message,
+    };
+  }
+};

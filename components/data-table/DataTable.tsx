@@ -4,6 +4,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -91,11 +92,17 @@ export function DataTable<TData, TValue>({
           </TableBody>
         )}
         {isLoading && <DataTableSkeleton columnCount={columns.length} />}
-      </Table>
 
-      {paginationMeta && (
-        <DataTablePagination paginationMeta={paginationMeta} />
-      )}
+        {paginationMeta && (
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={columns.length}>
+                <DataTablePagination paginationMeta={paginationMeta} />
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        )}
+      </Table>
     </>
   );
 }

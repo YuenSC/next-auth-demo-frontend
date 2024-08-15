@@ -5,9 +5,9 @@ import { fetchProjects } from "@/lib/data";
 import PageProps from "@/lib/types/PageProps";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { Suspense } from "react";
-import ErrorComponent from "./ErrorComponent";
-import ProjectDialog from "./ProjectDialog";
-import { ProjectColumns } from "./ProjectColumns";
+import { ProjectColumns } from "../../../components/project/ProjectColumns";
+import ProjectDialog from "../../../components/project/ProjectDialog";
+import ProjectListErrorComponent from "../../../components/project/ProjectListErrorComponent";
 
 const Page = async ({ searchParams }: PageProps) => {
   return (
@@ -15,7 +15,7 @@ const Page = async ({ searchParams }: PageProps) => {
       <SearchFilterBar searchTextPlaceholder="Search by name" />
 
       <div className="w-full bg-white">
-        <ErrorBoundary errorComponent={ErrorComponent}>
+        <ErrorBoundary errorComponent={ProjectListErrorComponent}>
           <Suspense
             fallback={
               <DataTable columns={ProjectColumns} data={[]} isLoading />
