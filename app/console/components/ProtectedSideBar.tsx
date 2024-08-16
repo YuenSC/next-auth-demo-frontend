@@ -6,6 +6,7 @@ import SideBarListItem from "./SideBarListItem";
 import SideBarMenuTitle from "./SideBarMenuTitle";
 import { DrawerClose } from "@/components/ui/drawer";
 import { Fragment } from "react";
+import { cn } from "@/lib/utils";
 
 const ProtectedSideBar = ({
   role,
@@ -15,8 +16,8 @@ const ProtectedSideBar = ({
   isDesktop: boolean;
 }) => {
   return (
-    <div className="flex flex-col bg-white">
-      <nav className="min-h-0 flex-1 overflow-auto">
+    <div className={cn("flex flex-col bg-white", !isDesktop && "h-full")}>
+      <nav className="h-full min-h-0 flex-1 overflow-auto">
         {SidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
             {title && <SideBarMenuTitle title={title} isDesktop={isDesktop} />}

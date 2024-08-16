@@ -50,7 +50,9 @@ const SideBarToggle = ({ role }: { role?: UserRole }) => {
             </DrawerClose>
             <AppLogoLink size="lg" />
           </HStack>
-          <ProtectedSideBar isDesktop={false} role={role} />
+          <div className="h-full overflow-hidden">
+            <ProtectedSideBar isDesktop={false} role={role} />
+          </div>
 
           <DrawerFooter>
             <div>Version 1.0.0</div>
