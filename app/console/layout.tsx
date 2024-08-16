@@ -12,7 +12,7 @@ export default function ProtectedLayout({
       <ProtectedTopBar />
       <div className="flex w-full flex-1">
         <ProtectedSideBar />
-        <div className="w-full flex-1">{children}</div>
+        <div className="w-full flex-1 overflow-hidden">{children}</div>
       </div>
     </VStack>
   );
