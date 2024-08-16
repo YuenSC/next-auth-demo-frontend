@@ -21,8 +21,16 @@ const SideBarListItem = ({
       className={cn("relative gap-5 px-6 py-3", isDesktop && "hidden md:flex")}
     >
       {icon}
-      {!isDesktopSidebarCollapsed && isDesktop && <span>{name}</span>}
-      {!isDesktop && <span>{name}</span>}
+      <span
+        className={cn(
+          "flex-1 transition-all",
+          isDesktopSidebarCollapsed &&
+            isDesktop &&
+            "-ml-5 w-0 whitespace-nowrap opacity-0",
+        )}
+      >
+        {name}
+      </span>
     </HStack>
   );
 };
