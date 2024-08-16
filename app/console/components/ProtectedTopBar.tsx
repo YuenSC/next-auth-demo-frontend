@@ -1,4 +1,4 @@
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 import AppLogoLink from "@/components/AppLogoLink";
 import { HStack } from "@/components/Stack";
 import { Button } from "@/components/ui/button";
@@ -10,11 +10,14 @@ const handleSignOut = async () => {
   await signOut({ redirectTo: "/" });
 };
 
-const ProtectedTopBar = () => {
+const ProtectedTopBar = async () => {
+  const session = await auth();
+  const role = session?.user?.role;
+
   return (
     <HStack className="justify-between border-b bg-white pl-4">
       <HStack>
-        <SideBarToggle />
+        <SideBarToggle role={role} />
         <div className="p-4">
           <AppLogoLink size="lg" />
         </div>

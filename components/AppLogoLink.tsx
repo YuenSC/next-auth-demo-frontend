@@ -3,19 +3,26 @@ import { FaClock } from "react-icons/fa";
 import { HStack } from "./Stack";
 import clsx from "clsx";
 import MainPageLink from "./MainPageLink";
+import { cn } from "@/lib/utils";
 
-const AppLogoLink = ({ size = "md" }: { size?: "md" | "lg" }) => {
+const AppLogoLink = ({
+  size = "md",
+  containerClassName,
+}: {
+  size?: "md" | "lg";
+  containerClassName?: string;
+}) => {
   return (
     <MainPageLink>
-      <HStack className="gap-2">
+      <HStack className={cn("gap-2", containerClassName)}>
         <FaClock
           className={clsx("text-primary", {
-            "md:text-2xl": size === "lg",
+            "text-2xl": size === "lg",
           })}
         />
         <p
           className={clsx("font-bold", {
-            "md:text-2xl": size === "lg",
+            "text-2xl": size === "lg",
           })}
         >
           Clockify

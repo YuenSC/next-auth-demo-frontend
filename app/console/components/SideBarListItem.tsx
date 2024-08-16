@@ -2,15 +2,27 @@
 
 import { HStack } from "@/components/Stack";
 import { useAppSelector } from "@/lib/redux/store";
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
-const SideBarListItem = ({ icon, name }: { name: string; icon: ReactNode }) => {
-  const { isSidebarCollapsed } = useAppSelector((state) => state.global);
+const SideBarListItem = ({
+  icon,
+  name,
+  isDesktop,
+}: {
+  name: string;
+  icon: ReactNode;
+  isDesktop: boolean;
+}) => {
+  const { isDesktopSidebarCollapsed } = useAppSelector((state) => state.global);
 
   return (
-    <HStack className="relative hidden gap-5 px-6 py-3 md:flex">
+    <HStack
+      className={cn("relative gap-5 px-6 py-3", isDesktop && "hidden md:flex")}
+    >
       {icon}
-      {!isSidebarCollapsed && <span>{name}</span>}
+      {!isDesktopSidebarCollapsed && isDesktop && <span>{name}</span>}
+      {!isDesktop && <span>{name}</span>}
     </HStack>
   );
 };
