@@ -15,7 +15,7 @@ const ProtectedTopBar = async () => {
   const role = session?.user?.role;
 
   return (
-    <HStack className="justify-between border-b bg-white pl-4">
+    <HStack className="sticky top-0 z-50 justify-between border-b bg-white pl-4">
       <HStack>
         <SideBarToggle role={role} />
         <div className="p-4">

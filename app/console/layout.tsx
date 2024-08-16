@@ -16,7 +16,7 @@ export default async function ProtectedLayout({
       <ProtectedTopBar />
       <div className="flex w-full flex-1">
         <ProtectedSideBar role={role} isDesktop />
-        <div className="w-full flex-1 overflow-hidden">{children}</div>
+        <div className="w-full flex-1">{children}</div>
       </div>
     </VStack>
   );

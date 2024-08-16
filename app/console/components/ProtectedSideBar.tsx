@@ -16,7 +16,12 @@ const ProtectedSideBar = ({
   isDesktop: boolean;
 }) => {
   return (
-    <div className={cn("flex flex-col bg-white", !isDesktop && "h-full")}>
+    <div
+      className={cn(
+        "sticky top-16 flex h-[calc(100vh-65px)] flex-col border-r bg-white",
+        !isDesktop && "h-full border-none",
+      )}
+    >
       <nav className="h-full min-h-0 flex-1 overflow-auto">
         {SidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
