@@ -55,7 +55,7 @@ const SearchFilterBar = ({
       />
 
       <Input
-        className="flex-grow-1 flex-basis-100 flex-shrink-0 md:max-w-lg"
+        containerClassName="flex-grow-1 flex-basis-100 flex-shrink-0 md:max-w-lg"
         placeholder={searchTextPlaceholder}
         onChange={(e) => handleSearch(QueryName.searchText, e.target.value)}
         defaultValue={searchParams.get(QueryName.searchText)?.toString()}

@@ -78,7 +78,7 @@ const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
               <Input
                 id="name"
                 name="name"
-                className="col-span-3"
+                containerClassName="col-span-3"
                 required
                 aria-required="true"
                 defaultValue={project?.name}
@@ -89,7 +89,7 @@ const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
               <Input
                 id="description"
                 name="description"
-                className="col-span-3"
+                containerClassName="col-span-3"
                 defaultValue={project?.description}
               />
             </div>
@@ -98,7 +98,7 @@ const ProjectDialog = forwardRef(({ project }: { project?: Project }, ref) => {
               <Input
                 id="clientName"
                 name="clientName"
-                className="col-span-3"
+                containerClassName="col-span-3"
                 defaultValue={project?.clientName}
               />
             </div>

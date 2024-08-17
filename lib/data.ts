@@ -1,13 +1,9 @@
 import { auth } from "@/auth";
-import {
-  ApiErrorResponse,
-  ApiPaginatedResponse,
-  ApiResponse,
-} from "./types/ApiResponse";
+import { ApiErrorResponse, ApiPaginatedResponse } from "./types/ApiResponse";
 import PageProps from "./types/PageProps";
+import { Project } from "./types/Project";
 import { BackendUser } from "./types/User";
 import { convertSearchParamsToString } from "./utils";
-import { Project } from "./types/Project";
 
 export const fetchWithToken = async (path: string, init?: RequestInit) => {
   const session = await auth();

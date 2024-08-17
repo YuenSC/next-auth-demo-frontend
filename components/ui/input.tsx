@@ -6,10 +6,11 @@ import { HStack } from "../Stack";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   iconLeft?: React.ReactNode;
+  containerClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, iconLeft, ...props }, ref) => {
+  ({ containerClassName, className, type, iconLeft, ...props }, ref) => {
     return (
       <HStack
         className={cn(
@@ -17,13 +18,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "file:border-0 file:bg-transparent file:text-sm file:font-medium",
           "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          className,
+          containerClassName,
         )}
       >
         {iconLeft && <div className="pl-2">{iconLeft}</div>}
         <input
           type={type}
-          className={cn("h-full w-full px-3 py-2 outline-none", {
+          className={cn("h-full w-full px-3 py-2 outline-none", className, {
             "pl-2": iconLeft,
           })}
           ref={ref}
