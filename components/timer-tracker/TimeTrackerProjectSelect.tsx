@@ -5,15 +5,14 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSession } from "next-auth/react";
+import { useFetchProjects } from "@/lib/api/useFetchProjects";
+import { Project } from "@/lib/types/Project";
 import { useState } from "react";
 import { GoPlusCircle } from "react-icons/go";
 import { useDebounce } from "use-debounce";
 import { HStack, VStack } from "../Stack";
-import { Input } from "../ui/input";
-import { useFetchProjects } from "@/lib/api/useFetchProjects";
 import { Button } from "../ui/button";
-import { Project } from "@/lib/types/Project";
+import { Input } from "../ui/input";
 
 const TimeTrackerProjectSelect = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +21,7 @@ const TimeTrackerProjectSelect = () => {
   const [debouncedSearchText] = useDebounce(searchText, 300);
 
   const { data } = useFetchProjects({
-    searchText: debouncedSearchText,
+    searchText: debouncedSearchText || undefined,
     limit: 5,
   });
   const projects = data?.data.items || [];
