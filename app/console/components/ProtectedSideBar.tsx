@@ -22,7 +22,7 @@ const ProtectedSideBar = ({
         !isDesktop && "h-full border-none",
       )}
     >
-      <nav className="h-full min-h-0 flex-1 overflow-auto">
+      <nav className="h-full min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
         {SidebarMenuSections.map(({ items, title }, index) => (
           <div key={index}>
             {title && <SideBarMenuTitle title={title} isDesktop={isDesktop} />}

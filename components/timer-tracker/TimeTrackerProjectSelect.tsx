@@ -19,7 +19,7 @@ const TimeTrackerProjectSelect = () => {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [searchText, setSearchText] = useState("");
   const [debouncedSearchText] = useDebounce(searchText, 300);
-  TimeTrackerProjectSelect;
+
   const { data, error } = useFetchProjects({
     searchText: debouncedSearchText || undefined,
     limit: 5,
@@ -30,8 +30,6 @@ const TimeTrackerProjectSelect = () => {
     (project) => project.id === selectedProjectId,
   );
 
-  console.log("data", data);
-  console.log("error", error);
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
