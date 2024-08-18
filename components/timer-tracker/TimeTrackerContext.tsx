@@ -5,6 +5,7 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -47,10 +48,17 @@ export const TimeTrackerProvider = ({
 }: PropsWithChildren<{ timeEntry: TimeEntry }>) => {
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef({
-    start: () => {},
+    start: (prevTime: Date) => {},
     pause: () => {},
     reset: () => {},
   });
+
+  useEffect(() => {
+    if (timeEntry) {
+      timerRef.current.start?.(new Date(timeEntry.startTime));
+      setIsRunning(true);
+    }
+  }, [setIsRunning, timeEntry]);
 
   return (
     <TimeTrackerContext.Provider

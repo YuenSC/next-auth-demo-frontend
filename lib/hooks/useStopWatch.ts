@@ -4,6 +4,7 @@ import useInterval from "./useInterval";
 
 export default function useStopwatch({
   onUpdate,
+  onReset,
 }: {
   onUpdate?: (record: {
     totalSeconds: number;
@@ -11,6 +12,7 @@ export default function useStopwatch({
     minutes: number;
     hours: number;
   }) => void;
+  onReset?: () => void;
 } = {}) {
   const [prevTime, setPrevTime] = useState(new Date());
   const [seconds, setSeconds] = useState(
@@ -44,7 +46,8 @@ export default function useStopwatch({
   const reset = useCallback(() => {
     setIsRunning(false);
     setSeconds(0);
-  }, []);
+    onReset?.();
+  }, [onReset]);
 
   return {
     ...Time.getTimeFromSeconds(seconds),

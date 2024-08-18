@@ -5,6 +5,8 @@ import { Input } from "../ui/input";
 import useStopwatch from "@/lib/hooks/useStopWatch";
 import { Button } from "../ui/button";
 import { useTimeTracker } from "./TimeTrackerContext";
+import { metadata } from "@/app/layout";
+import { PAGE_TITLE } from "@/lib/constants/PageTitle";
 
 // const isValidTime = (time: string) => {
 //   if (!/^\d{0,2}:\d{0,2}:\d{0,2}$/.test(time)) return false;
@@ -102,26 +104,20 @@ const TimeTrackerDurationInput = ({}: {
   startTime?: string;
 }) => {
   const { minutes, seconds, hours, start, pause, reset } = useStopwatch({
-    onUpdate: ({ totalSeconds, hours, minutes, seconds }) => {
-      console.log("totalSeconds", totalSeconds);
-      document.title = `${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}`;
+    onUpdate: ({ hours, minutes, seconds }) => {
+      document.title = `${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)} | ${PAGE_TITLE}`;
+    },
+    onReset: () => {
+      document.title = PAGE_TITLE;
     },
   });
 
-  const { timerRef, timeEntry, setIsRunning } = useTimeTracker();
-
+  const { timerRef, timeEntry } = useTimeTracker();
   useImperativeHandle(timerRef, () => ({ start, pause, reset }), [
     start,
     pause,
     reset,
   ]);
-
-  useEffect(() => {
-    if (timeEntry) {
-      start(new Date(timeEntry.startTime));
-      setIsRunning(true);
-    }
-  }, [setIsRunning, start, timeEntry]);
 
   return (
     <Input
