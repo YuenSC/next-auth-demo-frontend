@@ -2,8 +2,9 @@
 
 import { signIn } from "@/auth";
 import { fetchWithToken } from "@/lib/data";
+import { TimeEntryUpdatePayload } from "@/lib/types/TimeEntry";
 import { AuthError } from "next-auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const authenticate = async (
   previousState: string | undefined,
@@ -60,6 +61,42 @@ export const deleteProject = async (id: string) => {
     });
 
     revalidatePath("/console/projects");
+  } catch (error) {
+    return {
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const createTimeEntry = async (formData: FormData) => {
+  try {
+    await fetchWithToken("/api/time-entries", {
+      body: JSON.stringify(Object.fromEntries(formData)),
+      method: "POST",
+    });
+
+    revalidatePath("/console/time-tracker");
+    revalidateTag("time-entries/current");
+  } catch (error) {
+    return {
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const updateTimeEntry = async (payload: TimeEntryUpdatePayload) => {
+  try {
+    const id = payload.id;
+    if (!id) {
+      throw new Error("Time Entry ID is required to update a time entry.");
+    }
+    await fetchWithToken(`/api/time-entries/${id}`, {
+      body: JSON.stringify(payload),
+      method: "PATCH",
+    });
+
+    revalidatePath("/console/time-tracker");
+    revalidateTag("time-entries/current");
   } catch (error) {
     return {
       error: (error as Error).message,

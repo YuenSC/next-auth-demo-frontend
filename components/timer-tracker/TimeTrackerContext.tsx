@@ -1,17 +1,19 @@
 "use client";
 
+import { updateTimeEntry } from "@/app/actions";
 import { PAGE_TITLE } from "@/lib/constants/PageTitle";
 import useStopwatch, { Stopwatch } from "@/lib/hooks/useStopWatch";
 import { TimeEntry } from "@/lib/types/TimeEntry";
 import { createContext, PropsWithChildren, useContext, useEffect } from "react";
+import { useToast } from "../ui/use-toast";
 
 interface TimeTrackerContext {
-  timeEntry?: TimeEntry;
+  timeEntry: TimeEntry | null;
   stopWatch: Stopwatch;
 }
 
 export const TimeTrackerContext = createContext<TimeTrackerContext>({
-  timeEntry: undefined,
+  timeEntry: null,
   stopWatch: {
     days: 0,
     hours: 0,
@@ -37,13 +39,28 @@ export const useTimeTracker = () => {
 export const TimeTrackerProvider = ({
   children,
   timeEntry,
-}: PropsWithChildren<{ timeEntry: TimeEntry }>) => {
+}: PropsWithChildren<{ timeEntry: TimeEntry | null }>) => {
+  const { toast } = useToast();
   const stopWatchProps = useStopwatch({
     onUpdate: ({ formattedTime }) => {
       document.title = `${formattedTime} | ${PAGE_TITLE}`;
     },
-    onReset: () => {
+    onReset: async () => {
       document.title = PAGE_TITLE;
+
+      if (timeEntry) {
+        const name = timeEntry.name || "Task";
+
+        await updateTimeEntry({
+          id: timeEntry.id,
+          endTime: new Date().toISOString(),
+        });
+
+        toast({
+          title: "Time Tracker stopped",
+          description: `${name} has been stopped successfully.`,
+        });
+      }
     },
   });
 

@@ -4,6 +4,8 @@ import ProtectedTopBar from "./components/ProtectedTopBar";
 import { auth } from "@/auth";
 import { TimeTrackerProvider } from "@/components/timer-tracker/TimeTrackerContext";
 import { TimeEntry } from "@/lib/types/TimeEntry";
+import { fetchWithToken } from "@/lib/data";
+import { ApiResponse } from "@/lib/types/ApiResponse";
 
 export default async function ProtectedLayout({
   children,
@@ -13,19 +15,20 @@ export default async function ProtectedLayout({
   const session = await auth();
   const role = session?.user.role;
 
+  let timeEntry = null;
+  try {
+    const { data } = (await fetchWithToken("/api/time-entries/current", {
+      next: {
+        tags: ["time-entries/current"],
+      },
+    })) as ApiResponse<TimeEntry>;
+    timeEntry = data;
+  } catch (error) {
+    console.error(error);
+  }
+
   return (
-    <TimeTrackerProvider
-      timeEntry={
-        {
-          id: "1",
-          projectId: "1",
-          startTime: new Date("2024-08-17T05:10:31+0800"),
-          endTime: undefined,
-          name: "Test",
-          userId: "",
-        } satisfies TimeEntry
-      }
-    >
+    <TimeTrackerProvider timeEntry={timeEntry}>
       <VStack className="min-h-screen">
         <ProtectedTopBar />
         <div className="flex w-full flex-1">

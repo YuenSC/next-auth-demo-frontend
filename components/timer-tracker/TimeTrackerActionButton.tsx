@@ -1,20 +1,24 @@
 "use client";
 
-import React from "react";
 import { Button } from "../ui/button";
 import { useTimeTracker } from "./TimeTrackerContext";
 
 const TimeTrackerActionButton = () => {
-  const { timerRef, setIsRunning, isRunning } = useTimeTracker();
+  const {
+    timeEntry,
+    stopWatch: { isRunning, reset },
+  } = useTimeTracker();
 
   if (isRunning) {
     return (
       <Button
+        type="button"
         variant="destructive"
-        onClick={() => {
-          timerRef.current.reset();
-          setIsRunning(false);
+        onClick={(e) => {
+          e.preventDefault();
+          reset();
         }}
+        className="w-16"
       >
         Stop
       </Button>
@@ -22,13 +26,7 @@ const TimeTrackerActionButton = () => {
   }
 
   return (
-    <Button
-      type="submit"
-      onSubmit={() => {
-        timerRef.current.start(new Date());
-        setIsRunning(true);
-      }}
-    >
+    <Button className="w-16" type="submit">
       Start
     </Button>
   );
