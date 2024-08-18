@@ -26,7 +26,11 @@ const SideBarListItem = ({
 
   return (
     <HStack
-      className={cn("relative gap-5 px-6 py-3", isDesktop && "hidden md:flex")}
+      className={cn(
+        "relative gap-5 px-6 py-3",
+        isDesktop && "hidden md:flex",
+        !isDesktopSidebarCollapsed && isDesktop && "w-[200px]",
+      )}
     >
       {icon}
       <span

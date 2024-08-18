@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import SignInForm from "./components/SignInForm";
 
+// TODO: search params kind of not make sense here. it make the page render dynamically
 export default async function Home({
   searchParams,
 }: {

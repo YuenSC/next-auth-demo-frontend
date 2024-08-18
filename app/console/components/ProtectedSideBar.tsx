@@ -18,7 +18,7 @@ const ProtectedSideBar = ({
   return (
     <div
       className={cn(
-        "sticky top-16 flex h-[calc(100vh-65px)] w-[200px] flex-col border-r bg-white",
+        "sticky top-16 flex h-[calc(100vh-65px)] flex-col border-r bg-white",
         !isDesktop && "h-full border-none",
       )}
     >

@@ -4,6 +4,7 @@ import PageProps from "./types/PageProps";
 import { Project } from "./types/Project";
 import { BackendUser } from "./types/User";
 import { convertSearchParamsToString } from "./utils";
+import { TimeEntry } from "./types/TimeEntry";
 
 export const fetchWithToken = async (path: string, init?: RequestInit) => {
   const session = await auth();
@@ -11,7 +12,7 @@ export const fetchWithToken = async (path: string, init?: RequestInit) => {
     throw new Error("No access token found");
   }
 
-  const res = await fetch(`${process.env.BACKEND_API_URL}${path}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
@@ -39,4 +40,12 @@ export const fetchProjects = async (
   return (await fetchWithToken(
     `/api/projects?${convertSearchParamsToString(searchParams)}`,
   )) as ApiPaginatedResponse<Project>;
+};
+
+export const fetchTimeEntries = async (
+  searchParams: PageProps["searchParams"],
+) => {
+  return (await fetchWithToken(
+    `/api/time-entries?${convertSearchParamsToString(searchParams)}`,
+  )) as ApiPaginatedResponse<TimeEntry>;
 };

@@ -50,7 +50,7 @@ const DataTablePagination = ({
       nextPageLink:
         currentPage < totalPages ? createPageLink(currentPage + 1) : undefined,
     };
-  }, [paginationMeta]);
+  }, [paginationMeta, pathname, searchParams]);
 
   return (
     <Pagination>

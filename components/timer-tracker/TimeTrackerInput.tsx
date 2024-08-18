@@ -2,7 +2,6 @@
 
 import { createTimeEntry } from "@/app/actions";
 import { useCallback } from "react";
-import { useFormState } from "react-dom";
 import { HStack } from "../Stack";
 import { Separator } from "../ui/separator";
 import { useToast } from "../ui/use-toast";
@@ -14,8 +13,8 @@ import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
 const TimeTrackerInput = () => {
   const { toast } = useToast();
 
-  const handleCreateTimeEntry = useCallback(
-    async (state: string | undefined, payload: FormData) => {
+  const formAction = useCallback(
+    async (payload: FormData) => {
       payload.set("startTime", new Date().toISOString());
       const result = await createTimeEntry(payload);
       if (result?.error) {
@@ -34,8 +33,6 @@ const TimeTrackerInput = () => {
     },
     [toast],
   );
-
-  const [_errorMessage, formAction] = useFormState(handleCreateTimeEntry, "");
 
   return (
     <form action={formAction}>

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { Slot } from "@radix-ui/react-slot";
 import clsx from "clsx";
 import React from "react";

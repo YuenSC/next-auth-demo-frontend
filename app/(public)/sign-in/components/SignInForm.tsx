@@ -37,7 +37,6 @@ const SignInForm = ({ redirectTo }: { redirectTo: string }) => {
             aria-required="true"
           />
         </div>
-        <input type="hidden" name="redirectTo" value={redirectTo} />
 
         {errorMessage && (
           <>

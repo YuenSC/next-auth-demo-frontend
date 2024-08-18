@@ -63,12 +63,13 @@ export const TimeTrackerProvider = ({
       }
     },
   });
+  const { start } = stopWatchProps;
 
   useEffect(() => {
     if (timeEntry) {
-      stopWatchProps.start(new Date(timeEntry.startTime));
+      start(new Date(timeEntry.startTime));
     }
-  }, [timeEntry]);
+  }, [start, timeEntry]);
 
   return (
     <TimeTrackerContext.Provider
