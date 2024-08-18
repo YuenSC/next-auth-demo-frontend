@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useFetchProjects } from "@/lib/api/useFetchProjects";
 import { Project } from "@/lib/types/Project";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { GoPlusCircle } from "react-icons/go";
 import { useDebounce } from "use-debounce";
 import { HStack, VStack } from "../Stack";
@@ -19,17 +19,19 @@ const TimeTrackerProjectSelect = () => {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [searchText, setSearchText] = useState("");
   const [debouncedSearchText] = useDebounce(searchText, 300);
-
-  const { data } = useFetchProjects({
+  TimeTrackerProjectSelect;
+  const { data, error } = useFetchProjects({
     searchText: debouncedSearchText || undefined,
     limit: 5,
   });
-  const projects = data?.data.items || [];
+  const projects = data?.data?.items || [];
 
   const selectedProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
 
+  console.log("data", data);
+  console.log("error", error);
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
@@ -53,18 +55,24 @@ const TimeTrackerProjectSelect = () => {
           />
         </div>
         <VStack className="mt-2 items-start gap-4">
-          {projects.map((project) => (
-            <Button
-              key={project.id}
-              variant="link"
-              onClick={() => {
-                setSelectedProjectId(project.id);
-                setOpen(false);
-              }}
-            >
-              <ProjectDisplay project={project} hasDot />
-            </Button>
-          ))}
+          {error?.message ? (
+            <span className="ml-4 text-sm">{error?.message}</span>
+          ) : (
+            <Fragment>
+              {projects.map((project) => (
+                <Button
+                  key={project.id}
+                  variant="link"
+                  onClick={() => {
+                    setSelectedProjectId(project.id);
+                    setOpen(false);
+                  }}
+                >
+                  <ProjectDisplay project={project} hasDot />
+                </Button>
+              ))}
+            </Fragment>
+          )}
         </VStack>
       </DropdownMenuContent>
     </DropdownMenu>

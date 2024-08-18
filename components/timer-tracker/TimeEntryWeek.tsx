@@ -8,7 +8,6 @@ const TimeEntryWeek = ({
   week: string;
   entries: TimeEntry[];
 }) => {
-  console.log(entries[0]);
   return (
     <div>
       <h2>{week}</h2>

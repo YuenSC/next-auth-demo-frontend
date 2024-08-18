@@ -1,3 +1,4 @@
+import axios from "axios";
 import queryString from "query-string";
 import useSWR from "swr";
 import { ApiPaginatedResponse } from "../types/ApiResponse";
@@ -7,8 +8,9 @@ export const useFetchProjects = (options: {
   searchText?: string;
   limit: number;
 }) => {
-  return useSWR(["/api/projects", options], async ([url, options]) => {
-    const res = await fetch(`${url}?${queryString.stringify(options)}`);
-    return (await res.json()) as ApiPaginatedResponse<Project>;
-  });
+  return useSWR<ApiPaginatedResponse<Project>, Error>(
+    ["/api/projects", options],
+    async ([url]) =>
+      (await axios.get(`${url}?${queryString.stringify(options)}`)).data,
+  );
 };
