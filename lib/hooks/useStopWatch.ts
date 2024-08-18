@@ -1,17 +1,12 @@
 import { useCallback, useState } from "react";
-import Time from "../utils/Time";
+import Time, { TimeFromSecondsReturnType } from "../utils/Time";
 import useInterval from "./useInterval";
 
 export default function useStopwatch({
   onUpdate,
   onReset,
 }: {
-  onUpdate?: (record: {
-    totalSeconds: number;
-    seconds: number;
-    minutes: number;
-    hours: number;
-  }) => void;
+  onUpdate?: (record: TimeFromSecondsReturnType) => void;
   onReset?: () => void;
 } = {}) {
   const [prevTime, setPrevTime] = useState(new Date());
@@ -57,3 +52,5 @@ export default function useStopwatch({
     isRunning,
   };
 }
+
+export type Stopwatch = ReturnType<typeof useStopwatch>;

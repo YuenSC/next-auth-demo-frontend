@@ -6,6 +6,15 @@ import { IconType } from "react-icons/lib";
 import { RxDashboard } from "react-icons/rx";
 import { UserRole } from "../types/User";
 
+export enum SideBarName {
+  Dashboard = "Dashboard",
+  Report = "Report",
+  TimeTracker = "Time Tracker",
+  Calendar = "Calendar",
+  Projects = "Projects",
+  Users = "Users",
+}
+
 export interface SideBarSection {
   title?: string;
   items: {
@@ -21,12 +30,12 @@ export const SidebarMenuSections = [
     title: "",
     items: [
       {
-        name: "Dashboard",
+        name: SideBarName.Dashboard,
         href: "/console",
         icon: RxDashboard,
       },
       {
-        name: "Report",
+        name: SideBarName.Report,
         href: "/console/report",
         icon: IoDocumentTextOutline,
       },
@@ -36,12 +45,12 @@ export const SidebarMenuSections = [
     title: "Record",
     items: [
       {
-        name: "Time Tracker",
+        name: SideBarName.TimeTracker,
         href: "/console/time-tracker",
         icon: IoIosTimer,
       },
       {
-        name: "Calendar",
+        name: SideBarName.Calendar,
         href: "/console/calendar",
         icon: IoCalendarClearOutline,
       },
@@ -51,12 +60,12 @@ export const SidebarMenuSections = [
     title: "MANAGE",
     items: [
       {
-        name: "Projects",
+        name: SideBarName.Projects,
         href: "/console/projects",
         icon: GoProject,
       },
       {
-        name: "Users",
+        name: SideBarName.Users,
         href: "/console/users",
         icon: FiUser,
         requiredRoles: [UserRole.Admin],

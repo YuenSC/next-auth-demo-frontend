@@ -1,5 +1,9 @@
 // Ref: https://github.com/amrlabib/react-timer-hook/blob/master/src/utils/Time.js#L1
 
+export type TimeFromSecondsReturnType = ReturnType<
+  typeof Time.getTimeFromSeconds
+>;
+
 export default class Time {
   static getTimeFromSeconds(secs: number) {
     const totalSeconds = Math.ceil(secs);
@@ -8,12 +12,15 @@ export default class Time {
     const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     const seconds = Math.floor(totalSeconds % 60);
 
+    const formattedTime = `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+
     return {
       totalSeconds,
       seconds,
       minutes,
       hours,
       days,
+      formattedTime,
     };
   }
 
@@ -64,5 +71,9 @@ export default class Time {
       hours: hoursValue,
       ampm,
     };
+  }
+
+  static padTime(time: number) {
+    return time.toString().padStart(2, "0");
   }
 }

@@ -1,13 +1,15 @@
 "use client";
 
 import { HStack } from "@/components/Stack";
+import { useTimeTracker } from "@/components/timer-tracker/TimeTrackerContext";
+import { SideBarName } from "@/lib/constants/SideBarMenu";
 import { useAppSelector } from "@/lib/redux/store";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 const SideBarListItem = ({
   icon,
-  name,
+  name: _name,
   isDesktop,
 }: {
   name: string;
@@ -15,6 +17,12 @@ const SideBarListItem = ({
   isDesktop: boolean;
 }) => {
   const { isDesktopSidebarCollapsed } = useAppSelector((state) => state.global);
+  const {
+    stopWatch: { isRunning, formattedTime },
+  } = useTimeTracker();
+
+  const name =
+    _name === SideBarName.TimeTracker && isRunning ? formattedTime : _name;
 
   return (
     <HStack

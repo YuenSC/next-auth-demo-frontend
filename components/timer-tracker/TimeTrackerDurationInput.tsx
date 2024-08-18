@@ -1,12 +1,8 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import Time from "@/lib/utils/Time";
 import { Input } from "../ui/input";
-import useStopwatch from "@/lib/hooks/useStopWatch";
-import { Button } from "../ui/button";
 import { useTimeTracker } from "./TimeTrackerContext";
-import { metadata } from "@/app/layout";
-import { PAGE_TITLE } from "@/lib/constants/PageTitle";
 
 // const isValidTime = (time: string) => {
 //   if (!/^\d{0,2}:\d{0,2}:\d{0,2}$/.test(time)) return false;
@@ -97,33 +93,19 @@ import { PAGE_TITLE } from "@/lib/constants/PageTitle";
 //   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 // };
 
-const padTime = (time: number) => time.toString().padStart(2, "0");
-
 const TimeTrackerDurationInput = ({}: {
   editable?: boolean;
   startTime?: string;
 }) => {
-  const { minutes, seconds, hours, start, pause, reset } = useStopwatch({
-    onUpdate: ({ hours, minutes, seconds }) => {
-      document.title = `${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)} | ${PAGE_TITLE}`;
-    },
-    onReset: () => {
-      document.title = PAGE_TITLE;
-    },
-  });
-
-  const { timerRef, timeEntry } = useTimeTracker();
-  useImperativeHandle(timerRef, () => ({ start, pause, reset }), [
-    start,
-    pause,
-    reset,
-  ]);
+  const {
+    stopWatch: { formattedTime },
+  } = useTimeTracker();
 
   return (
     <Input
       containerClassName="min-w-[125px] max-w-[125px] font-bold"
       className="text-center font-mono"
-      value={`${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}`}
+      value={formattedTime}
       disabled
     />
   );

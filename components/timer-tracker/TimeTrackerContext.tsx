@@ -1,37 +1,29 @@
 "use client";
 
+import { PAGE_TITLE } from "@/lib/constants/PageTitle";
+import useStopwatch, { Stopwatch } from "@/lib/hooks/useStopWatch";
 import { TimeEntry } from "@/lib/types/TimeEntry";
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, PropsWithChildren, useContext, useEffect } from "react";
 
 interface TimeTrackerContext {
-  timerRef: React.MutableRefObject<{
-    start: (prevTime: Date) => void;
-    pause: () => void;
-    reset: () => void;
-  }>;
-  isRunning: boolean;
-  setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
   timeEntry?: TimeEntry;
+  stopWatch: Stopwatch;
 }
 
 export const TimeTrackerContext = createContext<TimeTrackerContext>({
-  timerRef: {
-    current: {
-      start: () => {},
-      pause: () => {},
-      reset: () => {},
-    },
-  },
-  isRunning: false,
-  setIsRunning: () => {},
   timeEntry: undefined,
+  stopWatch: {
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    totalSeconds: 0,
+    formattedTime: "00:00:00",
+    isRunning: false,
+    pause: () => {},
+    reset: () => {},
+    start: () => {},
+  },
 });
 
 export const useTimeTracker = () => {
@@ -46,23 +38,24 @@ export const TimeTrackerProvider = ({
   children,
   timeEntry,
 }: PropsWithChildren<{ timeEntry: TimeEntry }>) => {
-  const [isRunning, setIsRunning] = useState(false);
-  const timerRef = useRef({
-    start: (prevTime: Date) => {},
-    pause: () => {},
-    reset: () => {},
+  const stopWatchProps = useStopwatch({
+    onUpdate: ({ formattedTime }) => {
+      document.title = `${formattedTime} | ${PAGE_TITLE}`;
+    },
+    onReset: () => {
+      document.title = PAGE_TITLE;
+    },
   });
 
   useEffect(() => {
     if (timeEntry) {
-      timerRef.current.start?.(new Date(timeEntry.startTime));
-      setIsRunning(true);
+      stopWatchProps.start(new Date(timeEntry.startTime));
     }
-  }, [setIsRunning, timeEntry]);
+  }, [timeEntry]);
 
   return (
     <TimeTrackerContext.Provider
-      value={{ timerRef, isRunning, setIsRunning, timeEntry }}
+      value={{ timeEntry, stopWatch: stopWatchProps }}
     >
       {children}
     </TimeTrackerContext.Provider>
