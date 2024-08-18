@@ -23,7 +23,8 @@ const TimeTrackerActionButton = () => {
 
   return (
     <Button
-      onClick={() => {
+      type="submit"
+      onSubmit={() => {
         timerRef.current.start(new Date());
         setIsRunning(true);
       }}

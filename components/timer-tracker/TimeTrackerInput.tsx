@@ -20,14 +20,16 @@ const TimeTrackerInput = async () => {
         userId: "",
       }}
     >
-      <HStack className="gap-4 border bg-white p-4 shadow-lg">
-        <Input placeholder="What are you working on?" autoFocus />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
-        <TimeTrackerProjectSelect />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
-        <TimeTrackerDurationInput />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
-        <TimeTrackerActionButton />
+      <HStack className="gap-4 border bg-white p-4 shadow-lg" asChild>
+        <form>
+          <Input placeholder="What are you working on?" autoFocus />
+          <Separator orientation="vertical" className="h-auto self-stretch" />
+          <TimeTrackerProjectSelect />
+          <Separator orientation="vertical" className="h-auto self-stretch" />
+          <TimeTrackerDurationInput />
+          <Separator orientation="vertical" className="h-auto self-stretch" />
+          <TimeTrackerActionButton />
+        </form>
       </HStack>
     </TimeTrackerProvider>
   );
