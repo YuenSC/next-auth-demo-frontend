@@ -1,9 +1,9 @@
 "use client";
 
 import { DataTable } from "@/components/data-table/DataTable";
-import { ProjectColumns } from "./ProjectColumns";
+import { ProjectColumns } from "@/components/project/ProjectColumns";
 
-const ProjectListErrorComponent = ({ error }: { error: Error }) => {
+const Error = ({ error }: { error: Error }) => {
   return (
     <DataTable
       columns={ProjectColumns}
@@ -13,4 +13,4 @@ const ProjectListErrorComponent = ({ error }: { error: Error }) => {
   );
 };
 
-export default ProjectListErrorComponent;
+export default Error;

@@ -3,10 +3,10 @@
 import { DataTable } from "@/components/data-table/DataTable";
 import { UserColumns } from "./UserColumns";
 
-const ErrorComponent = ({ error }: { error: Error }) => {
+const Error = ({ error }: { error: Error }) => {
   return (
     <DataTable columns={UserColumns} data={[]} errorMessage={error.message} />
   );
 };
 
-export default ErrorComponent;
+export default Error;
