@@ -49,19 +49,27 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
           return (
             <li key={entry.id} className={cn("py-1", !isLast && "border-b")}>
               <HStack className="flex-wrap gap-4 p-2 px-4">
-                <HStack className="min-w-[400px] flex-1 gap-4">
-                  <TimeTrackerNameInput entry={entry} />
+                <HStack className="min-w-full flex-1 flex-col items-stretch gap-4 md:min-w-[300px] md:flex-row">
+                  <HStack className="flex-1 gap-4">
+                    <TimeTrackerNameInput
+                      entry={entry}
+                      className="md:min-w-0"
+                    />
+                    <span className="font-mono text-sm md:hidden">
+                      {getDuration([entry])}
+                    </span>
+                  </HStack>
                   <TimeTrackerProjectSelect entry={entry} />
                 </HStack>
 
-                <HStack className="flex-1 justify-between gap-4">
+                <HStack className="flex-1 justify-between gap-4 border-t px-2 pt-2 md:border-none md:px-0 md:pt-0">
                   <HStack className="gap-1 font-mono text-sm">
                     <span>{format(entry.startTime, "HH:mm")}</span>
                     <span>-</span>
                     <span>{format(entry.endTime!, "HH:mm")}</span>
                   </HStack>
 
-                  <span className="font-mono text-sm">
+                  <span className="hidden font-mono text-sm md:inline">
                     {getDuration([entry])}
                   </span>
 
