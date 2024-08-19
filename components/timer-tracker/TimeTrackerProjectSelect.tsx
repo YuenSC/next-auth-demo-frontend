@@ -14,9 +14,9 @@ import { HStack, VStack } from "../Stack";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-const TimeTrackerProjectSelect = () => {
+const TimeTrackerProjectSelect = ({ projectId }: { projectId?: string }) => {
   const [open, setOpen] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [selectedProjectId, setSelectedProjectId] = useState(projectId || "");
   const [searchText, setSearchText] = useState("");
   const [debouncedSearchText] = useDebounce(searchText, 300);
 

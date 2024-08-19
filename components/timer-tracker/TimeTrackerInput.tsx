@@ -36,13 +36,15 @@ const TimeTrackerInput = () => {
 
   return (
     <form action={formAction}>
-      <HStack className="gap-4 border bg-white p-4 shadow-lg">
-        <TimeTrackerNameInput />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
-        <TimeTrackerProjectSelect />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
+      <HStack className="flex-wrap justify-end gap-4 border bg-white p-4 shadow-lg md:justify-between">
+        <HStack className="flex-1 basis-full gap-4 md:basis-0">
+          <TimeTrackerNameInput />
+          <TimeTrackerSeparator />
+          <TimeTrackerProjectSelect />
+          <TimeTrackerSeparator />
+        </HStack>
         <TimeTrackerDurationInput />
-        <Separator orientation="vertical" className="h-auto self-stretch" />
+        <TimeTrackerSeparator />
         <TimeTrackerActionButton />
       </HStack>
     </form>
@@ -50,3 +52,12 @@ const TimeTrackerInput = () => {
 };
 
 export default TimeTrackerInput;
+
+const TimeTrackerSeparator = () => {
+  return (
+    <Separator
+      orientation="vertical"
+      className="hidden h-auto self-stretch md:block"
+    />
+  );
+};

@@ -4,8 +4,6 @@ import { AppStore, makeStore } from "@/lib/redux/store";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { useRef } from "react";
 import { Provider } from "react-redux";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
 
 export default function StoreProvider({
   children,
@@ -17,13 +15,14 @@ export default function StoreProvider({
     storeRef.current = makeStore();
     setupListeners(storeRef.current.dispatch);
   }
-  const persistor = persistStore(storeRef.current);
+  // PersistGate will return a blank page in Next.js
+  // const persistor = persistStore(storeRef.current);
 
   return (
     <Provider store={storeRef.current}>
-      <PersistGate loading={<div>Loading</div>} persistor={persistor}>
-        {children}
-      </PersistGate>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+      {children}
+      {/* </PersistGate> */}
     </Provider>
   );
 }

@@ -1,8 +1,8 @@
 export interface TimeEntry {
   id: string;
   name: string;
-  startTime: Date;
-  endTime?: Date;
+  startTime: string;
+  endTime?: string;
   userId: string;
   projectId: string;
 }
