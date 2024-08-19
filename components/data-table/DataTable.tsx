@@ -16,7 +16,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import DataTablePagination from "./DataTablePagination";
+import PaginationGroup from "../PaginationGroup";
 import DataTableSkeleton from "./DataTableSkeleton";
 
 interface DataTableProps<TData, TValue> {
@@ -97,7 +97,7 @@ export function DataTable<TData, TValue>({
           <TableFooter>
             <TableRow>
               <TableCell colSpan={columns.length}>
-                <DataTablePagination paginationMeta={paginationMeta} />
+                <PaginationGroup paginationMeta={paginationMeta} />
               </TableCell>
             </TableRow>
           </TableFooter>

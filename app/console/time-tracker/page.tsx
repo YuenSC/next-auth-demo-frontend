@@ -1,3 +1,4 @@
+import PaginationGroup from "@/components/PaginationGroup";
 import { VStack } from "@/components/Stack";
 import TimeEntryWeek from "@/components/timer-tracker/TimeEntryWeek";
 import { fetchTimeEntries } from "@/lib/data";
@@ -17,6 +18,9 @@ const Page = async ({ searchParams }: PageProps) => {
         ),
       )}
       {/* Pagination */}
+      <div className="bg-white p-2">
+        <PaginationGroup paginationMeta={meta} />
+      </div>
     </VStack>
   );
 };
