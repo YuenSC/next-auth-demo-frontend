@@ -8,32 +8,17 @@ import TimeEntryMenu from "./TimeEntryMenu";
 import TimeEntryStartButton from "./TimeEntryStartButton";
 import TimeTrackerNameInput from "./TimeTrackerNameInput";
 import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
-
-const getDay = (startTime: string) => {
-  return format(startTime, "EEE, MMM d");
-};
-
-const getDuration = (entries: TimeEntry[]) => {
-  const totalSeconds = entries.reduce((acc, entry) => {
-    if (!entry.endTime) return acc;
-    return acc + differenceInSeconds(entry.endTime, entry.startTime);
-  }, 0);
-
-  console.log("totalSeconds", totalSeconds);
-  const { formattedTime } = Time.getTimeFromSeconds(totalSeconds);
-
-  return formattedTime;
-};
+import TimeTrackerDurationInput from "./TimeTrackerDurationInput";
 
 const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
   return (
     <div className="bg-white">
       <HStack className="justify-between bg-gray-300 p-2 px-4 text-sm">
-        <h3>{getDay(entries[0].startTime)}</h3>
+        <h3>{format(entries[0].startTime, Time.timeFormat)}</h3>
         <span className="text-gray-400">
           Total:
           <span className="ml-2 text-lg text-black">
-            {getDuration(entries)}
+            {Time.getDurationFromEntries(entries)}
           </span>
         </span>
       </HStack>
@@ -52,7 +37,7 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
                       className="md:min-w-0"
                     />
                     <span className="font-mono text-sm md:hidden">
-                      {getDuration([entry])}
+                      {Time.getDurationFromEntries([entry])}
                     </span>
                   </HStack>
                   <TimeTrackerProjectSelect entry={entry} />
@@ -61,9 +46,7 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
                 <HStack className="flex-1 flex-wrap justify-center gap-4 lg:flex-nowrap">
                   <TimeEntryDateTimeInput entry={entry} />
 
-                  <span className="hidden font-mono text-sm md:inline">
-                    {getDuration([entry])}
-                  </span>
+                  <TimeTrackerDurationInput entry={entry} />
 
                   <TimeEntryStartButton entry={entry} />
                   <TimeEntryMenu entry={entry} />

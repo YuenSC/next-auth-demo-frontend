@@ -1,17 +1,25 @@
 // Ref: https://github.com/amrlabib/react-timer-hook/blob/master/src/utils/Time.js#L1
 
+import { differenceInSeconds } from "date-fns";
+import { TimeEntry } from "../types/TimeEntry";
+
 export type TimeFromSecondsReturnType = ReturnType<
   typeof Time.getTimeFromSeconds
 >;
 
 export default class Time {
+  static timeFormat = "EEE, MMM d";
+
+  static getFormattedTime(hours: number, minutes: number, seconds: number) {
+    return `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+  }
+
   static getTimeFromSeconds(secs: number) {
     const totalSeconds = Math.ceil(secs);
     const hours = Math.floor(totalSeconds / (60 * 60));
     const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     const seconds = Math.floor(totalSeconds % 60);
-
-    const formattedTime = `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+    const formattedTime = this.getFormattedTime(hours, minutes, seconds);
 
     return {
       totalSeconds,
@@ -73,5 +81,15 @@ export default class Time {
 
   static padTime(time: number) {
     return time.toString().padStart(2, "0");
+  }
+
+  static getDurationFromEntries(entries: TimeEntry[]) {
+    const totalSeconds = entries.reduce((acc, entry) => {
+      if (!entry.endTime) return acc;
+      return acc + differenceInSeconds(entry.endTime, entry.startTime);
+    }, 0);
+
+    const { formattedTime } = Time.getTimeFromSeconds(totalSeconds);
+    return formattedTime;
   }
 }
