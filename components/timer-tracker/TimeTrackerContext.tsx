@@ -6,6 +6,8 @@ import useStopwatch, { Stopwatch } from "@/lib/hooks/useStopWatch";
 import { TimeEntry } from "@/lib/types/TimeEntry";
 import { createContext, PropsWithChildren, useContext, useEffect } from "react";
 import { useToast } from "../ui/use-toast";
+import { toFormData } from "axios";
+import { getFormData } from "@/lib/utils/getFormData";
 
 interface TimeTrackerContext {
   timeEntry: TimeEntry | null;
@@ -51,10 +53,12 @@ export const TimeTrackerProvider = ({
       if (timeEntry) {
         const name = timeEntry.name || "Task";
 
-        await updateTimeEntry({
-          id: timeEntry.id,
-          endTime: new Date().toISOString(),
-        });
+        await updateTimeEntry(
+          getFormData({
+            id: timeEntry.id,
+            endTime: new Date().toISOString(),
+          }),
+        );
 
         toast({
           title: "Time Tracker stopped",

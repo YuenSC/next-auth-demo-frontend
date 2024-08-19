@@ -84,19 +84,34 @@ export const createTimeEntry = async (formData: FormData) => {
   }
 };
 
-export const updateTimeEntry = async (payload: TimeEntryUpdatePayload) => {
+export const updateTimeEntry = async (formData: FormData) => {
   try {
-    const id = payload.id;
+    const id = formData.get("id");
     if (!id) {
       throw new Error("Time Entry ID is required to update a time entry.");
     }
+
     await fetchWithToken(`/api/time-entries/${id}`, {
-      body: JSON.stringify(payload),
+      body: JSON.stringify(Object.fromEntries(formData)),
       method: "PATCH",
     });
 
     revalidatePath("/console/time-tracker");
     revalidateTag("time-entries/current");
+  } catch (error) {
+    return {
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const deleteTimeEntry = async (id: string) => {
+  try {
+    await fetchWithToken(`/api/time-entries/${id}`, {
+      method: "DELETE",
+    });
+
+    revalidatePath("/console/time-tracker");
   } catch (error) {
     return {
       error: (error as Error).message,

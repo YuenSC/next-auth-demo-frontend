@@ -27,6 +27,8 @@ export default async function ProtectedLayout({
     console.error(error);
   }
 
+  console.log("current timeEntry", timeEntry);
+
   return (
     <TimeTrackerProvider timeEntry={timeEntry}>
       <VStack className="min-h-screen">

@@ -13,10 +13,17 @@ import { useDebounce } from "use-debounce";
 import { HStack, VStack } from "../Stack";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { TimeEntry } from "@/lib/types/TimeEntry";
+import { getFormData } from "@/lib/utils/getFormData";
+import { updateTimeEntry } from "@/app/actions";
+import { useToast } from "../ui/use-toast";
 
-const TimeTrackerProjectSelect = ({ projectId }: { projectId?: string }) => {
+const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
+  const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(projectId || "");
+  const [selectedProjectId, setSelectedProjectId] = useState(
+    entry?.projectId || "",
+  );
   const [searchText, setSearchText] = useState("");
   const [debouncedSearchText] = useDebounce(searchText, 300);
 
@@ -30,6 +37,32 @@ const TimeTrackerProjectSelect = ({ projectId }: { projectId?: string }) => {
     (project) => project.id === selectedProjectId,
   );
 
+  const onSelect = async (projectId: string) => {
+    setSelectedProjectId(projectId);
+    setOpen(false);
+    if (!entry || entry.projectId === projectId) return;
+
+    const result = await updateTimeEntry(
+      getFormData({
+        id: entry?.id,
+        projectId,
+      }),
+    );
+
+    if (result?.error) {
+      return toast({
+        title: "Error",
+        description: result.error,
+        variant: "destructive",
+      });
+    }
+
+    toast({
+      title: "Time Tracker updated",
+      description: `Task project has been updated successfully.`,
+    });
+  };
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
@@ -41,7 +74,9 @@ const TimeTrackerProjectSelect = ({ projectId }: { projectId?: string }) => {
             <span className="group-hover:underline">Project</span>
           </HStack>
         )}
-        <input type="hidden" name="projectId" value={selectedProjectId} />
+        {selectedProjectId && (
+          <input type="hidden" name="projectId" value={selectedProjectId} />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[400px] py-4">
         <div className="px-2">
@@ -61,10 +96,7 @@ const TimeTrackerProjectSelect = ({ projectId }: { projectId?: string }) => {
                 <Button
                   key={project.id}
                   variant="link"
-                  onClick={() => {
-                    setSelectedProjectId(project.id);
-                    setOpen(false);
-                  }}
+                  onClick={() => onSelect(project.id)}
                 >
                   <ProjectDisplay project={project} hasDot />
                 </Button>

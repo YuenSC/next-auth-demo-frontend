@@ -1,4 +1,4 @@
-import { TimeEntry } from "@/lib/types/TimeEntry";
+import { TimeEntry, TimeEntryCreatePayload } from "@/lib/types/TimeEntry";
 import { cn } from "@/lib/utils";
 import Time from "@/lib/utils/Time";
 import { format } from "date-fns";
@@ -7,6 +7,11 @@ import { HStack } from "../Stack";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
+import TimeTrackerNameInput from "./TimeTrackerNameInput";
+import { createTimeEntry } from "@/app/actions";
+import { getFormData } from "@/lib/utils/getFormData";
+import TimeEntryStartButton from "./TimeEntryStartButton";
+import TimeEntryMenu from "./TimeEntryMenu";
 
 const getDay = (startTime: string) => {
   return format(startTime, "EEE, MMM d");
@@ -43,13 +48,10 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
           const isLast = index === entries.length - 1;
           return (
             <li key={entry.id} className={cn("py-1", !isLast && "border-b")}>
-              <HStack className="p-2 px-4">
+              <HStack className="flex-wrap gap-4 p-2 px-4">
                 <HStack className="flex-1 gap-4">
-                  <Input
-                    defaultValue={entry.name}
-                    containerClassName="max-w-40"
-                  />
-                  <TimeTrackerProjectSelect projectId={entry.projectId} />
+                  <TimeTrackerNameInput entry={entry} className="min-w-60" />
+                  <TimeTrackerProjectSelect entry={entry} />
                 </HStack>
 
                 <HStack className="flex-1 justify-between gap-4">
@@ -63,11 +65,8 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
                     {getDuration([entry])}
                   </span>
 
-                  <Button variant="outline">Start</Button>
-
-                  <Button variant="outline" size="icon">
-                    <BsThreeDotsVertical size={24} />
-                  </Button>
+                  <TimeEntryStartButton entry={entry} />
+                  <TimeEntryMenu entry={entry} />
                 </HStack>
               </HStack>
             </li>
