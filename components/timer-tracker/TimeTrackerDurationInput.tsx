@@ -103,7 +103,7 @@ const TimeTrackerDurationInput = ({}: {
 
   return (
     <Input
-      containerClassName="min-w-[125px] max-w-[125px] font-bold"
+      containerClassName="flex-1 font-bold md:w-[150px] md:flex-none"
       className="text-center font-mono"
       value={formattedTime}
       disabled

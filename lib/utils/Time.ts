@@ -7,8 +7,7 @@ export type TimeFromSecondsReturnType = ReturnType<
 export default class Time {
   static getTimeFromSeconds(secs: number) {
     const totalSeconds = Math.ceil(secs);
-    const days = Math.floor(totalSeconds / (60 * 60 * 24));
-    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+    const hours = Math.floor(totalSeconds / (60 * 60));
     const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
     const seconds = Math.floor(totalSeconds % 60);
 
@@ -19,7 +18,6 @@ export default class Time {
       seconds,
       minutes,
       hours,
-      days,
       formattedTime,
     };
   }

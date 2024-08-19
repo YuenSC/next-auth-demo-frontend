@@ -1,31 +1,26 @@
-import { TimeEntry, TimeEntryCreatePayload } from "@/lib/types/TimeEntry";
+import { TimeEntry } from "@/lib/types/TimeEntry";
 import { cn } from "@/lib/utils";
 import Time from "@/lib/utils/Time";
-import { format } from "date-fns";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { HStack } from "../Stack";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
-import TimeTrackerNameInput from "./TimeTrackerNameInput";
-import { createTimeEntry } from "@/app/actions";
-import { getFormData } from "@/lib/utils/getFormData";
-import TimeEntryStartButton from "./TimeEntryStartButton";
+import { differenceInSeconds, format } from "date-fns";
+import { HStack, VStack } from "../Stack";
+import TimeEntryDateTimeInput from "./TimeEntryDateTimeInput";
 import TimeEntryMenu from "./TimeEntryMenu";
+import TimeEntryStartButton from "./TimeEntryStartButton";
+import TimeTrackerNameInput from "./TimeTrackerNameInput";
+import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
 
 const getDay = (startTime: string) => {
   return format(startTime, "EEE, MMM d");
 };
 
 const getDuration = (entries: TimeEntry[]) => {
-  const total = entries.reduce((acc, entry) => {
+  const totalSeconds = entries.reduce((acc, entry) => {
     if (!entry.endTime) return acc;
-    const start = new Date(entry.startTime).getTime();
-    const end = new Date(entry.endTime).getTime();
-    return acc + (end - start);
+    return acc + differenceInSeconds(entry.endTime, entry.startTime);
   }, 0);
 
-  const { formattedTime } = Time.getTimeFromSeconds(total / 1000);
+  console.log("totalSeconds", totalSeconds);
+  const { formattedTime } = Time.getTimeFromSeconds(totalSeconds);
 
   return formattedTime;
 };
@@ -46,9 +41,10 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
       <ul>
         {entries.map((entry, index) => {
           const isLast = index === entries.length - 1;
+
           return (
             <li key={entry.id} className={cn("py-1", !isLast && "border-b")}>
-              <HStack className="flex-wrap gap-4 p-2 px-4">
+              <VStack className="flex-wrap gap-4 p-2 px-4 lg:flex-row">
                 <HStack className="min-w-full flex-1 flex-col items-stretch gap-4 md:min-w-[300px] md:flex-row">
                   <HStack className="flex-1 gap-4">
                     <TimeTrackerNameInput
@@ -62,12 +58,8 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
                   <TimeTrackerProjectSelect entry={entry} />
                 </HStack>
 
-                <HStack className="flex-1 justify-between gap-4 border-t px-2 pt-2 md:border-none md:px-0 md:pt-0">
-                  <HStack className="gap-1 font-mono text-sm">
-                    <span>{format(entry.startTime, "HH:mm")}</span>
-                    <span>-</span>
-                    <span>{format(entry.endTime!, "HH:mm")}</span>
-                  </HStack>
+                <HStack className="flex-1 flex-wrap justify-center gap-4 lg:flex-nowrap">
+                  <TimeEntryDateTimeInput entry={entry} />
 
                   <span className="hidden font-mono text-sm md:inline">
                     {getDuration([entry])}
@@ -76,7 +68,7 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
                   <TimeEntryStartButton entry={entry} />
                   <TimeEntryMenu entry={entry} />
                 </HStack>
-              </HStack>
+              </VStack>
             </li>
           );
         })}
