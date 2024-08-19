@@ -7,7 +7,7 @@ import { Separator } from "../ui/separator";
 import { useToast } from "../ui/use-toast";
 import TimeTrackerActionButton from "./TimeTrackerActionButton";
 import { useTimeTracker } from "./TimeTrackerContext";
-import TimeTrackerDurationInput from "./TimeTrackerDurationInput";
+import TimeTrackerDurationDisplay from "./TimeTrackerDurationDisplay";
 import TimeTrackerNameInput from "./TimeTrackerNameInput";
 import TimeTrackerProjectSelect from "./TimeTrackerProjectSelect";
 
@@ -46,7 +46,7 @@ const TimeTrackerInput = () => {
           <TimeTrackerProjectSelect />
           <TimeTrackerSeparator />
         </HStack>
-        <TimeTrackerDurationInput />
+        <TimeTrackerDurationDisplay />
         <TimeTrackerSeparator />
         <TimeTrackerActionButton />
       </HStack>

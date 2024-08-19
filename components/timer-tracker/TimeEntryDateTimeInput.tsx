@@ -29,12 +29,6 @@ const TimeEntryDateTimeInput = ({ entry }: { entry: TimeEntry }) => {
       payload.endTime = newEndTimeTimestamp;
     }
 
-    // if end date is one day after start date, remove a day from end date
-    if (differenceInHours(payload.endTime, payload.startTime) >= 24) {
-      const newEndTimeTimestamp = subDays(payload.endTime, 1).toISOString();
-      payload.endTime = newEndTimeTimestamp;
-    }
-
     if (
       payload.startTime === entry.startTime &&
       payload.endTime === entry.endTime

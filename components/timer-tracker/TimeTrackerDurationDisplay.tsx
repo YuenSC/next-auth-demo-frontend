@@ -93,7 +93,7 @@ import { useTimeTracker } from "./TimeTrackerContext";
 //   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 // };
 
-const TimeTrackerDurationInput = ({}: {
+const TimeTrackerDurationDisplay = ({}: {
   editable?: boolean;
   startTime?: string;
 }) => {
@@ -111,6 +111,6 @@ const TimeTrackerDurationInput = ({}: {
   );
 };
 
-TimeTrackerDurationInput.displayName = "TimeTrackerDurationInput";
+TimeTrackerDurationDisplay.displayName = "TimeTrackerDurationDisplay";
 
-export default TimeTrackerDurationInput;
+export default TimeTrackerDurationDisplay;
