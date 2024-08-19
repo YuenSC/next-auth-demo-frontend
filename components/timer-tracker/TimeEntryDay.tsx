@@ -49,8 +49,8 @@ const TimeEntryDay = ({ entries }: { entries: TimeEntry[] }) => {
           return (
             <li key={entry.id} className={cn("py-1", !isLast && "border-b")}>
               <HStack className="flex-wrap gap-4 p-2 px-4">
-                <HStack className="flex-1 gap-4">
-                  <TimeTrackerNameInput entry={entry} className="min-w-60" />
+                <HStack className="min-w-[400px] flex-1 gap-4">
+                  <TimeTrackerNameInput entry={entry} />
                   <TimeTrackerProjectSelect entry={entry} />
                 </HStack>
 
