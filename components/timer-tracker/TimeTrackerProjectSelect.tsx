@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useFetchProjects } from "@/lib/api/useFetchProjects";
 import { Project } from "@/lib/types/Project";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { GoPlusCircle } from "react-icons/go";
 import { useDebounce } from "use-debounce";
 import { HStack, VStack } from "../Stack";
@@ -20,7 +20,7 @@ import { useToast } from "../ui/use-toast";
 import { FaSpinner } from "react-icons/fa";
 import { useFetchProject } from "@/lib/api/useFetchProject";
 
-const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
+const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry | null }) => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(
@@ -76,6 +76,10 @@ const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
     });
   };
 
+  useEffect(() => {
+    setSelectedProjectId(entry?.projectId || "");
+  }, [entry]);
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
@@ -101,6 +105,11 @@ const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
           />
         </div>
         <VStack className="mt-2 items-start">
+          {selectedProject && (
+            <Button variant="ghost" onClick={() => onSelect("")}>
+              No Project
+            </Button>
+          )}
           {error?.message ? (
             <span className="ml-4 text-sm">{error?.message}</span>
           ) : (

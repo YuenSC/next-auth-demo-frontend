@@ -23,7 +23,7 @@ import {
 } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { VStack } from "../Stack";
 import { PopoverClose } from "@radix-ui/react-popover";
@@ -90,6 +90,10 @@ const DateRangeOptions = [
   },
 ];
 
+const defaultDateRange = DateRangeOptions.find(
+  ({ label }) => label === "This week",
+)?.value;
+
 const DashboardDateRangePicker = () => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -98,7 +102,10 @@ const DashboardDateRangePicker = () => {
     from: getValidDay(searchParams.get("from")),
     to: getValidDay(searchParams.get("to")),
   } satisfies DateRange;
-  const [date, setDate] = useState<DateRange | undefined>(dateFromSearchParams);
+  const hasParams = !!dateFromSearchParams.from && !!dateFromSearchParams.to;
+  const [date, setDate] = useState<DateRange | undefined>(
+    hasParams ? dateFromSearchParams : defaultDateRange,
+  );
   const [open, setOpen] = useState(false);
   const [range, setRange] = useState("");
 

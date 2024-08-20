@@ -43,7 +43,7 @@ const TimeTrackerInput = () => {
         <HStack className="flex-1 basis-full gap-4 md:basis-0">
           <TimeTrackerNameInput entry={timeEntry} />
           <TimeTrackerSeparator />
-          <TimeTrackerProjectSelect />
+          <TimeTrackerProjectSelect entry={timeEntry} />
           <TimeTrackerSeparator />
         </HStack>
         <TimeTrackerDurationDisplay />
