@@ -1,11 +1,9 @@
+import { auth } from "@/auth";
 import { VStack } from "@/components/Stack";
+import { TimeTrackerProvider } from "@/components/timer-tracker/TimeTrackerContext";
+import { fetchCurrentTimeEntry } from "@/lib/data";
 import ProtectedSideBar from "./components/ProtectedSideBar";
 import ProtectedTopBar from "./components/ProtectedTopBar";
-import { auth } from "@/auth";
-import { TimeTrackerProvider } from "@/components/timer-tracker/TimeTrackerContext";
-import { TimeEntry } from "@/lib/types/TimeEntry";
-import { fetchWithToken } from "@/lib/data";
-import { ApiResponse } from "@/lib/types/ApiResponse";
 
 export default async function ProtectedLayout({
   children,
@@ -17,17 +15,11 @@ export default async function ProtectedLayout({
 
   let timeEntry = null;
   try {
-    const { data } = (await fetchWithToken("/api/time-entries/current", {
-      next: {
-        tags: ["time-entries/current"],
-      },
-    })) as ApiResponse<TimeEntry>;
+    const { data } = await fetchCurrentTimeEntry();
     timeEntry = data;
   } catch (error) {
     console.error(error);
   }
-
-  console.log("current timeEntry", timeEntry);
 
   return (
     <TimeTrackerProvider timeEntry={timeEntry}>

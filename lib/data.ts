@@ -1,5 +1,9 @@
 import { auth } from "@/auth";
-import { ApiErrorResponse, ApiPaginatedResponse } from "./types/ApiResponse";
+import {
+  ApiErrorResponse,
+  ApiPaginatedResponse,
+  ApiResponse,
+} from "./types/ApiResponse";
 import PageProps from "./types/PageProps";
 import { Project } from "./types/Project";
 import { BackendUser } from "./types/User";
@@ -48,4 +52,10 @@ export const fetchTimeEntries = async (
   return (await fetchWithToken(
     `/api/time-entries?${convertSearchParamsToString(searchParams)}`,
   )) as ApiPaginatedResponse<TimeEntry>;
+};
+
+export const fetchCurrentTimeEntry = async () => {
+  return (await fetchWithToken("/api/time-entries/current", {
+    next: { tags: ["time-entries/current"] },
+  })) as ApiResponse<TimeEntry>;
 };
