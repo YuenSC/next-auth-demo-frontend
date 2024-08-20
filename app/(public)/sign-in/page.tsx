@@ -13,7 +13,7 @@ export default async function Home({
   const redirectTo =
     typeof searchParams?.callbackUrl === "string"
       ? searchParams.callbackUrl
-      : "/console";
+      : "/console/time-tracker";
 
   return (
     <main className="m-4 flex h-full flex-1 flex-col items-center justify-center md:m-24 md:mt-0">

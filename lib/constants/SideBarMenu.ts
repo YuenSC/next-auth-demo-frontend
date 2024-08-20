@@ -27,21 +27,6 @@ export interface SideBarSection {
 
 export const SidebarMenuSections = [
   {
-    title: "",
-    items: [
-      {
-        name: SideBarName.Dashboard,
-        href: "/console",
-        icon: RxDashboard,
-      },
-      {
-        name: SideBarName.Report,
-        href: "/console/report",
-        icon: IoDocumentTextOutline,
-      },
-    ],
-  },
-  {
     title: "Record",
     items: [
       {
@@ -57,7 +42,23 @@ export const SidebarMenuSections = [
     ],
   },
   {
-    title: "MANAGE",
+    title: "Data",
+    items: [
+      {
+        name: SideBarName.Dashboard,
+        href: "/console",
+        icon: RxDashboard,
+      },
+      {
+        name: SideBarName.Report,
+        href: "/console/report",
+        icon: IoDocumentTextOutline,
+      },
+    ],
+  },
+
+  {
+    title: "Manage",
     items: [
       {
         name: SideBarName.Projects,
