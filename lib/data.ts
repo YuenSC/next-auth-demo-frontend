@@ -46,6 +46,10 @@ export const fetchProjects = async (
   )) as ApiPaginatedResponse<Project>;
 };
 
+export const fetchProject = async (id: string) => {
+  return (await fetchWithToken(`/api/projects/${id}`)) as ApiResponse<Project>;
+};
+
 export const fetchTimeEntries = async (
   searchParams: PageProps["searchParams"],
 ) => {

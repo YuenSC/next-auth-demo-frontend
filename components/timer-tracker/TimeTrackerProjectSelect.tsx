@@ -17,6 +17,8 @@ import { TimeEntry } from "@/lib/types/TimeEntry";
 import { getFormData } from "@/lib/utils/getFormData";
 import { updateTimeEntry } from "@/app/actions";
 import { useToast } from "../ui/use-toast";
+import { FaSpinner } from "react-icons/fa";
+import { useFetchProject } from "@/lib/api/useFetchProject";
 
 const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
   const { toast } = useToast();
@@ -27,15 +29,26 @@ const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
   const [searchText, setSearchText] = useState("");
   const [debouncedSearchText] = useDebounce(searchText, 300);
 
-  const { data, error } = useFetchProjects({
+  const {
+    data: res,
+    error,
+    isLoading,
+  } = useFetchProjects({
     searchText: debouncedSearchText || undefined,
     limit: 5,
   });
-  const projects = data?.data?.items || [];
 
-  const selectedProject = projects.find(
-    (project) => project.id === selectedProjectId,
-  );
+  const { data: projectRes } = useFetchProject(entry?.projectId);
+  const currentProject = projectRes?.data;
+
+  const projects = res?.data?.items || [];
+  const hasMore = res?.data.meta
+    ? res.data.meta.currentPage < res.data.meta.totalPages
+    : false;
+
+  const selectedProject = (
+    currentProject ? [currentProject, ...projects] : projects
+  ).find((project) => project.id === selectedProjectId);
 
   const onSelect = async (projectId: string) => {
     setSelectedProjectId(projectId);
@@ -87,7 +100,7 @@ const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
-        <VStack className="mt-2 items-start gap-4">
+        <VStack className="mt-2 items-start">
           {error?.message ? (
             <span className="ml-4 text-sm">{error?.message}</span>
           ) : (
@@ -104,6 +117,12 @@ const TimeTrackerProjectSelect = ({ entry }: { entry?: TimeEntry }) => {
             </Fragment>
           )}
         </VStack>
+        {isLoading && (
+          <HStack className="mt-4 justify-center">
+            <FaSpinner size={24} className="animate-spin" />
+          </HStack>
+        )}
+        {hasMore && <span>Search more precisely for more result</span>}
       </DropdownMenuContent>
     </DropdownMenu>
   );

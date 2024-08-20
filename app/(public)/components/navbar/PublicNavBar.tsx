@@ -15,7 +15,7 @@ const PublicNavBar = async () => {
       <HStack className="gap-4">
         {session ? (
           <Link href="/console">
-            <Button>Console</Button>
+            <Button>Sign In</Button>
           </Link>
         ) : (
           <SignInButton />
