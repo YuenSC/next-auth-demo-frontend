@@ -61,5 +61,5 @@ export const fetchTimeEntries = async (
 export const fetchCurrentTimeEntry = async () => {
   return (await fetchWithToken("/api/time-entries/current", {
     next: { tags: ["time-entries/current"] },
-  })) as ApiResponse<TimeEntry>;
+  })) as ApiResponse<TimeEntry | null>;
 };

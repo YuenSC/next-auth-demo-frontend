@@ -24,13 +24,12 @@ export async function generateMetadata() {
   let duration = "";
   try {
     const { data } = await fetchCurrentTimeEntry();
+    if (!data) throw new Error("No current time entry found");
     const { formattedTime } = Time.getTimeFromSeconds(
       Time.getSecondsFromPrevTime(new Date(data.startTime), true),
     );
     duration = `${formattedTime} |`;
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
 
   return {
     title: duration + PAGE_TITLE,
