@@ -26,6 +26,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { VStack } from "../Stack";
+// eslint-disable-next-line no-restricted-imports
 import { PopoverClose } from "@radix-ui/react-popover";
 
 const getValidDay = (value: string | null) => {

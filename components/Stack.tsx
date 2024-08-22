@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-restricted-imports
 import { cn } from "@/lib/utils";
+// eslint-disable-next-line no-restricted-imports
 import { Slot } from "@radix-ui/react-slot";
 import React from "react";
 
